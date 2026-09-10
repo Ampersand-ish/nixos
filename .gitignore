@@ -1,0 +1,14 @@
+result
+result-*
+.direnv/
+home/nvim/lua/matugen.lua
+home/opencode/node_modules/
+home/opencode/package.json
+home/opencode/package-lock.json
+home/opencode/bun.lock
+home/opencode/themes/matugen.json
+home/rclone/rclone.conf
+home/easyeffects/db/*.bak
+secrets/*.dec
+*.qcow2
+mighty-ssh_host_ed25519_key*

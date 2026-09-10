@@ -1,0 +1,27 @@
+// Output configuration for moonwhite (GA503RW + MSI MPG321UX OLED + Philips 34B2U3600C).
+// Contributed via desktop.niri.outputs; the HDR/max-bpc nodes are spicy-niri syntax.
+
+output "eDP-2" {
+    mode "2560x1440@240.003"
+    scale 1.5
+    transform "normal"
+    position x=4267 y=0
+}
+
+output "Microstep MPG321UX OLED 0x01010101" {
+    mode "3840x2160@239.990"
+    scale 1.5
+    transform "normal"
+    position x=1707 y=-480
+    variable-refresh-rate on-demand=true
+    max-bpc 10
+    hdr mode="auto" {
+        reference-luminance 203
+    }
+}
+
+output "Philips Consumer Electronics Company 34B2U3600C UK02610067959" {
+    mode "3440x1440@120.000"
+    scale 1.25
+    transform "normal"
+}

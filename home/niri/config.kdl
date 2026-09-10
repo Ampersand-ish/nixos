@@ -1,0 +1,463 @@
+// =============================================================================
+// Niri Main Configuration File (KDL Format)
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Introduction
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Autostart & Environment
+// -----------------------------------------------------------------------------
+
+spawn-at-startup "noctalia"
+spawn-at-startup "dbus-update-activation-environment" "--all"
+// udiskie is started by home-manager (services.udiskie)
+
+environment {
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    QT_QPA_PLATFORM "wayland"
+    QT_QPA_PLATFORMTHEME "gtk3"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
+}
+
+// -----------------------------------------------------------------------------
+// System & General Settings
+// -----------------------------------------------------------------------------
+
+config-notification {
+    disable-failed
+}
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+prefer-no-csd
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
+// -----------------------------------------------------------------------------
+// Input Devices & Gestures
+// -----------------------------------------------------------------------------
+
+input {
+    keyboard {
+        numlock
+    }
+
+    touchpad {
+        tap
+        natural-scroll
+    }
+
+    mouse {
+        accel-speed 0.0
+        accel-profile "flat"
+        scroll-factor 0.75
+    }
+
+    trackpoint
+}
+
+gestures {
+    hot-corners {
+        off
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Cursor Settings
+// -----------------------------------------------------------------------------
+
+cursor {
+    xcursor-theme "capitaine-cursors"
+    xcursor-size 36
+}
+
+// -----------------------------------------------------------------------------
+// Output / Display Monitor Configurations: per host, see home/niri/hosts/<host>/outputs.kdl
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// Layout & Appearance
+// -----------------------------------------------------------------------------
+
+layout {
+    gaps 8
+    background-color "transparent"
+    center-focused-column "never"
+
+    default-column-width { proportion 0.5; }
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    focus-ring {
+        off
+        width 2
+    }
+
+    border {
+        off
+        width 2
+    }
+
+    shadow {
+        on
+        softness 8
+        spread 1
+        offset x=0 y=0
+        draw-behind-window true
+        color "#121212"
+        inactive-color "#00000000"
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Animations
+// -----------------------------------------------------------------------------
+
+animations {
+    workspace-switch {
+        spring damping-ratio=0.8 stiffness=523 epsilon=0.0001
+    }
+
+    window-open {
+        duration-ms 150
+        curve "cubic-bezier" 0.42 0.0 0.58 1.0
+    }
+
+    window-close {
+        duration-ms 150
+        curve "cubic-bezier" 0.42 0.0 0.58 1.0
+    }
+
+    horizontal-view-movement {
+        duration-ms 200
+        curve "cubic-bezier" 0.42 0.0 0.58 1.0
+    }
+
+    window-movement {
+        curve "cubic-bezier" 0.42 0.0 0.58 1.0
+    }
+
+    window-resize {
+        curve "cubic-bezier" 0.42 0.0 0.58 1.0
+    }
+
+    config-notification-open-close {
+        spring damping-ratio=0.65 stiffness=923 epsilon=0.001
+    }
+
+    screenshot-ui-open {
+        duration-ms 200
+        curve "cubic-bezier" 0.42 0.0 0.58 1.0
+    }
+
+    overview-open-close {
+        spring damping-ratio=0.85 stiffness=800 epsilon=0.0001
+    }
+
+    slowdown 0.8
+}
+
+// -----------------------------------------------------------------------------
+// Recent Windows / Alt+Tab
+// -----------------------------------------------------------------------------
+
+recent-windows {
+    highlight {
+        corner-radius 16
+    }
+
+    binds {
+        Alt+Tab         { next-window scope="output"; }
+        Alt+Shift+Tab   { previous-window scope="output"; }
+        Alt+grave       { next-window filter="app-id"; }
+        Alt+Shift+grave { previous-window filter="app-id"; }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Workspace Overview
+// -----------------------------------------------------------------------------
+
+overview {
+    workspace-shadow {
+        off
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Window & Layer Rules
+// -----------------------------------------------------------------------------
+
+window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+    draw-border-with-background false
+    background-effect {
+        xray false
+    }
+}
+window-rule {
+    match app-id=r"^org\.gnome\."
+    draw-border-with-background false
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
+
+// Fixed size / Non-floating control panels
+window-rule {
+    match app-id=r"^gnome-control-center$"
+    match app-id=r"^pavucontrol$"
+    match app-id=r"^nm-connection-editor$"
+    default-column-width { proportion 0.5; }
+    open-floating false
+}
+
+// Floating dialogs and tools
+window-rule {
+    match app-id=r"^org\.gnome\.Calculator$"
+    match app-id=r"^gnome-calculator$"
+    match app-id=r"^galculator$"
+    match app-id=r"^blueman-manager$"
+    match app-id=r"^org\.gnome\.Nautilus$"
+    match app-id=r"^xdg-desktop-portal$"
+    open-floating true
+}
+
+// Firefox PiP & Zoom floating
+window-rule {
+    match app-id=r"firefox$" title="^Picture-in-Picture$"
+    match app-id="zoom"
+    open-floating true
+}
+
+// Web Browser maximization
+window-rule {
+    match app-id="^google-chrome$"
+    open-maximized true
+}
+
+// Steam notification toasts position
+window-rule {
+    match app-id=r"^steam$" title=r"^notificationtoasts_\d+_desktop$"
+    default-floating-position x=10 y=10 relative-to="bottom-right"
+    open-focused false
+}
+
+// Steam games open full screen always	
+window-rule {
+    match app-id=r"^steam_app_\d+$"
+    open-fullscreen true
+}
+
+// Terminal & Browser border rendering
+window-rule {
+    match app-id=r"^org\.wezfurlong\.wezterm$"
+    match app-id="Alacritty"
+    match app-id="zen"
+    match app-id="com.mitchellh.ghostty"
+    match app-id="kitty"
+    draw-border-with-background false
+    opacity 0.95
+    background-effect {
+        xray false
+        blur true
+    }
+}
+
+// Layer rules
+
+// Noctalia shell surfaces: translucent bar/panels, blurred popups
+layer-rule {
+    match namespace=r#"^noctalia-(bar-[^"]+|notification|dock|panel|attached-panel|osd)$"#
+    opacity 0.95
+    background-effect {
+        xray false
+        blur false
+    }
+    popups {
+        opacity 0.98
+        geometry-corner-radius 15
+        background-effect {
+            xray false
+            blur true
+        }
+    }
+}
+
+// Wallpaper / quickshell backdrop surfaces render behind the overview
+layer-rule {
+    match namespace="^quickshell$"
+    match namespace="^noctalia-wallpaper"
+    place-within-backdrop true
+}
+
+blur {
+    passes 3
+    offset 3.0
+    noise 0.03
+    saturation 1.0
+}
+
+// -----------------------------------------------------------------------------
+// Keybindings
+// -----------------------------------------------------------------------------
+
+binds {
+    // Noctalia & System Panels
+    Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
+    Mod+S { spawn-sh "noctalia msg panel-toggle control-center"; }
+    Mod+Comma { spawn-sh "noctalia msg settings-toggle"; }
+    Mod+X repeat=false { spawn-sh "noctalia msg panel-toggle session"; }
+    Mod+V repeat=false { spawn-sh "noctalia msg panel-toggle clipboard"; }
+
+    // Media & Brightness
+    XF86AudioRaiseVolume { spawn-sh "noctalia msg volume-up 2"; }
+    XF86AudioLowerVolume { spawn-sh "noctalia msg volume-down 2"; }
+    XF86AudioMute { spawn-sh "noctalia msg volume-mute"; }
+    XF86MonBrightnessUp { spawn-sh "noctalia msg brightness-up"; }
+    XF86MonBrightnessDown { spawn-sh "noctalia msg brightness-down"; }
+
+    // Applications
+    Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
+    Super+B hotkey-overlay-title="Launch Google Chrome" { spawn "google-chrome-stable"; }
+    Super+E hotkey-overlay-title="Launch Nautilus" { spawn "nautilus"; }
+    Mod+M repeat=false { spawn "resources"; }
+
+    // Workspaces - Focus
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+O { focus-workspace-up; }
+    Mod+U { focus-workspace-down; }
+    Mod+Page_Up { focus-workspace-up; }
+    Mod+Page_Down { focus-workspace-down; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+
+    // Workspaces - Move Column to Workspace
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+    Mod+Shift+O { move-column-to-workspace-up; }
+    Mod+Shift+U { move-column-to-workspace-down; }
+    Mod+Ctrl+Up { move-column-to-workspace-up; }
+    Mod+Ctrl+Down { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp cooldown-ms=150 { move-column-to-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+
+    // Workspaces - Move Workspace
+    Mod+Ctrl+O { move-workspace-up; }
+    Mod+Ctrl+U { move-workspace-down; }
+    Mod+Shift+Page_Up { move-workspace-up; }
+    Mod+Shift+Page_Down { move-workspace-down; }
+
+    // Navigation - Focus Windows / Columns
+    Mod+H { focus-column-left; }
+    Mod+L { focus-column-right; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    Mod+Left { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Down { focus-window-down; }
+    Mod+Up { focus-window-up; }
+    Mod+Home { focus-column-first; }
+    Mod+End { focus-column-last; }
+    Mod+WheelScrollLeft { focus-column-left; }
+    Mod+WheelScrollRight { focus-column-right; }
+    Mod+Shift+WheelScrollUp { focus-column-left; }
+    Mod+Shift+WheelScrollDown { focus-column-right; }
+
+    // Navigation - Move Windows / Columns
+    Mod+Shift+H { move-column-left; }
+    Mod+Shift+L { move-column-right; }
+    Mod+Shift+J { move-window-down; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+Left { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Down { move-window-down; }
+    Mod+Shift+Up { move-window-up; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End { move-column-to-last; }
+    Mod+Ctrl+WheelScrollLeft { move-column-left; }
+    Mod+Ctrl+WheelScrollRight { move-column-right; }
+    Mod+Ctrl+Shift+WheelScrollUp { move-column-left; }
+    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
+
+    // Monitor Management
+    Mod+Ctrl+H { focus-monitor-left; }
+    Mod+Ctrl+L { focus-monitor-right; }
+    Mod+Ctrl+J { focus-monitor-down; }
+    Mod+Ctrl+K { focus-monitor-up; }
+    Mod+Ctrl+Left { focus-monitor-left; }
+    Mod+Ctrl+Right { focus-monitor-right; }
+    Mod+Shift+Ctrl+H { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+L { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+J { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Left { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+Up { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Down { move-column-to-monitor-down; }
+    Mod+Shift+P { power-off-monitors; }
+
+    // Layout & Sizing
+    Mod+Q repeat=false { close-window; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+Alt+F repeat=false { maximize-window-to-edges; }
+    Mod+C { center-column; }
+    Mod+Ctrl+C { center-visible-columns; }
+    Mod+Ctrl+F { expand-column-to-available-width; }
+    Mod+R { switch-preset-column-width; }
+    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Ctrl+R { reset-window-height; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+W { toggle-column-tabbed-display; }
+    Mod+BracketLeft { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+Period { expel-window-from-column; }
+    Mod+Shift+T { toggle-window-floating; }
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+    // Screenshots
+    Super+Shift+S { screenshot; }
+    XF86Launch1 { screenshot; }
+    Alt+Print { screenshot-window; }
+    Alt+XF86Launch1 { screenshot-window; }
+    Ctrl+Print { screenshot-screen; }
+    Ctrl+XF86Launch1 { screenshot-screen; }
+
+    // General Controls & Overview
+    Mod+D repeat=false { toggle-overview; }
+    Mod+Tab repeat=false { toggle-overview; }
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Shift+E { quit; }
+}
+
+// The host output blocks and `include optional=true "noctalia.kdl"` are appended by modules/desktop/niri.nix

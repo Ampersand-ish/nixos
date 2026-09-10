@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# chrome-hdr — enable/disable Chrome's Wayland HDR (wp_color_management_v1) output.
+#
+# Background: Chrome tags its fullscreen video surface with the compositor's preferred
+# image description (PQ/BT.2020) even for SDR video, so niri's `hdr mode="auto"` puts the
+# monitor into HDR for every fullscreen video. Disabling the WaylandWpColorManagerV1
+# feature stops that, at the cost of real HDR playback in Chrome.
+#
+# Usage: chrome-hdr on|off|toggle|status
+set -euo pipefail
+
+CONF="${XDG_CONFIG_HOME:-$HOME/.config}/chrome-flags.conf"
+FEATURE="WaylandWpColorManagerV1"
+MARK="# chrome-hdr: managed line, use \`chrome-hdr on|off\` to change"
+LINE="--disable-features=$FEATURE"
+
+is_disabled() { [[ -f "$CONF" ]] && grep -qxF -- "$LINE" "$CONF"; }
+
+remove_line() {
+    [[ -f "$CONF" ]] || return 0
+    local tmp; tmp="$(mktemp)"
+    grep -vxF -e "$LINE" -e "$MARK" "$CONF" > "$tmp" || true
+    if [[ -s "$tmp" ]]; then mv "$tmp" "$CONF"; else rm -f "$tmp" "$CONF"; fi
+}
+
+add_line() {
+    mkdir -p "$(dirname "$CONF")"
+    { [[ -f "$CONF" ]] && cat "$CONF"; printf '%s\n%s\n' "$MARK" "$LINE"; } > "$CONF.tmp"
+    mv "$CONF.tmp" "$CONF"
+}
+
+status() {
+    if is_disabled; then echo "Chrome HDR: OFF ($LINE in $CONF)"
+    else echo "Chrome HDR: ON (Chrome default; no $FEATURE override in $CONF)"; fi
+}
+
+warn_running() {
+    if pgrep -x chrome >/dev/null 2>&1; then
+        echo "Note: Chrome is running — fully quit and relaunch it for this to take effect." >&2
+    fi
+}
+
+case "${1:-}" in
+    on)     remove_line; status; warn_running ;;
+    off)    is_disabled || add_line; status; warn_running ;;
+    toggle) if is_disabled; then "$0" on; else "$0" off; fi ;;
+    status) status ;;
+    *)      echo "usage: chrome-hdr on|off|toggle|status" >&2; exit 2 ;;
+esac

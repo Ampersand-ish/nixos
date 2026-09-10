@@ -1,0 +1,24 @@
+[Presets]
+lastLoadedInputPreset=Noise cancellation and mic fix
+lastLoadedOutputPreset=IEMs Bass boost
+
+[StreamInputs]
+inputDevice=alsa_input.pci-0000_07_00.6.analog-stereo
+mostUsedPresets=Noise cancellation and mic fix
+plugins=autogain#0,rnnoise#0
+usedPresets=Noise cancellation and mic fix:123
+visiblePage=pluginsPage
+visiblePlugin=rnnoise#0
+
+[StreamOutputs]
+mostUsedPresets=IEMs Bass boost,Standard
+outputDevice=alsa_output.usb-FIIO_FIIO_KA13-01.analog-stereo
+plugins=bass_enhancer#0,limiter#0
+usedPresets=IEMs Bass boost:94,Standard:2
+visiblePage=pluginsPage
+visiblePlugin=bass_enhancer#0
+
+[Window]
+autostartOnLogin=true
+height=1424
+width=1268

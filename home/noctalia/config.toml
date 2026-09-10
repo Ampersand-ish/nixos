@@ -1,0 +1,247 @@
+# Exported with `noctalia config export`; runtime GUI state ([wallpaper.last], per-monitor wallpapers,
+# lockscreen_widgets) lives in ~/.local/state/noctalia/settings.toml and is intentionally not here.
+[bar.default]
+auto_hide = true
+background_opacity = 0.99999997764825821
+capsule = false
+capsule_fill = "on_secondary"
+capsule_padding = 16.0
+capsule_thickness = 0.56999999098479748
+center = [ "media", "clock" ]
+end = [
+    "tray",
+    "notifications",
+    "clipboard",
+    "network",
+    "bluetooth",
+    "volume",
+    "brightness",
+    "battery",
+    "mirror_2",
+    "control-center"
+]
+font_family = "undefined medium"
+font_weight = 500
+hover_highlight = false
+margin_ends = 500
+padding = 12
+position = "bottom"
+reserve_space = false
+scale = 1.0500000081956387
+show_on_workspace_switch = false
+smart_auto_hide = false
+start = [ "date", "spacer_2", "workspaces", "taskbar" ]
+thickness = 40
+widget_spacing = 14
+
+[battery]
+warning_threshold = 20
+
+[brightness]
+enable_ddcutil = true
+
+[control_center]
+hidden_tabs = [ "system", "weather", "screen-time" ]
+
+    [[control_center.shortcuts]]
+    type = "wifi"
+
+    [[control_center.shortcuts]]
+    type = "bluetooth"
+
+    [[control_center.shortcuts]]
+    type = "audio"
+
+    [[control_center.shortcuts]]
+    type = "notification"
+
+    [[control_center.shortcuts]]
+    type = "power_profile"
+
+    [[control_center.shortcuts]]
+    type = "caffeine"
+
+[desktop_widgets]
+enabled = false
+
+[idle]
+behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = true
+    timeout = 400.0
+
+    [idle.behavior.lock-and-suspend]
+    action = "lock_and_suspend"
+    enabled = false
+    timeout = 900.0
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = true
+    timeout = 500.0
+
+[lockscreen]
+allow_empty_password = true
+fingerprint = false
+
+[notification]
+history_retention_hours = 6
+position = "bottom_right"
+
+[osd]
+position = "bottom_center"
+
+    [osd.kinds]
+    media = false
+
+[plugin_settings."elijaharch/wl-screen-mirror"]
+controls_placement = "floating"
+
+[plugin_settings."nightwatch75/file-search"]
+show_hidden = true
+
+[plugins]
+enabled = [ "elijaharch/wl-screen-mirror" ]
+
+[shell]
+font_family = "JetBrainsMono NF"
+polkit_agent = true
+settings_show_advanced = true
+
+    [shell.animation]
+    speed = 1.2500000186264515
+
+    [shell.launcher]
+    session_search = true
+
+    [shell.panel]
+    control_center_placement = "floating"
+    open_near_click_control_center = true
+
+    [[shell.session.actions]]
+    action = "lock"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "l"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "logout"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "x"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "lock_and_suspend"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "s"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "r"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "u"
+    variant = "destructive"
+
+    [[shell.session.actions]]
+    action = "command"
+    command = "systemctl hibernate"
+    countdown_seconds = 0.0
+    enabled = true
+    glyph = "zzz"
+    label = "Hibernate"
+    shortcut = "h"
+    variant = "default"
+
+    [shell.shadow]
+    direction = "center"
+
+[system.monitor]
+enabled = false
+
+[theme]
+community_palette = "Oxocarbon"
+mode = "dark"
+source = "wallpaper"
+wallpaper_scheme = "m3-content"
+
+    [theme.templates]
+    builtin_ids = [ "btop", "gtk3", "gtk4", "ghostty", "niri", "qt" ]
+    community_ids = [ "opencode", "discord", "libreoffice", "neovim", "heroiclauncher", "steam", "bat" ]
+
+[wallpaper]
+directory = "/home/ampersand/Pictures/Wallpapers"
+per_monitor_directories = true
+transition = [ "fade" ]
+
+    [wallpaper.automation]
+    enabled = true
+
+    [wallpaper.default]
+    path = "/home/ampersand/Pictures/Wallpapers/planets/wallhaven-5y5dg7.jpg"
+
+[weather]
+effects = false
+
+[widget.clock]
+anchor = true
+scale = 1.1500000000000001
+
+[widget.control-center]
+glyph = "navigation-filled"
+
+[widget.media]
+art_size = 60.0
+capsule = false
+capsule_padding = 10.0
+hide_when_no_media = true
+max_length = 155
+title_scroll = "on_hover"
+
+[widget.mirror]
+type = "elijaharch/wl-screen-mirror:mirror"
+
+[widget.mirror_2]
+type = "elijaharch/wl-screen-mirror:mirror"
+
+[widget.spacer_2]
+type = "spacer"
+
+[widget.spacer_3]
+type = "spacer"
+
+[widget.spacer_4]
+length = 25
+type = "spacer"
+
+[widget.spacer_5]
+type = "spacer"
+
+[widget.taskbar]
+only_active_workspace = true
+
+[widget.tray]
+detached_panel = true
+drawer = true
+drawer_columns = 3
+enabled = true
+match_adjacent_spacing = false
+pinned = []
+
+[widget.workspaces]
+capsule = true
+color = "secondary"
+max_label_chars = 4
+style = "minimal"

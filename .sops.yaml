@@ -1,0 +1,18 @@
+# Fill in real recipients before creating secrets (see secrets/README.md).
+keys:
+  - &admin age1xd5cnwkjh7sf7kmulyqnc5u5lkfpaln9mmh7cpx4k70zph78p55szsdsrm
+  - &moonwhite age1REPLACE_WITH_MOONWHITE_HOST_AGE_PUBLIC_KEY
+  - &mighty age1d8pr3qvzra2dejq5av2gac6e2agyvtfq5w0ynmtfkycjdp0zlsrq8u4asn
+creation_rules:
+  - path_regex: secrets/moonwhite\.yaml$
+    key_groups:
+      - age: [*admin, *moonwhite]
+  - path_regex: secrets/mighty\.yaml$
+    key_groups:
+      - age: [*admin, *mighty]
+  - path_regex: secrets/nm\.env$
+    key_groups:
+      - age: [*admin, *moonwhite, *mighty]
+  - path_regex: secrets/.*
+    key_groups:
+      - age: [*admin]
