@@ -67,6 +67,12 @@
             resumeOffset = null; # post-install: btrfs inspect-internal map-swapfile -r /swap/swapfile
           };
 
+          # SSH in from moonwhite (ssh module keeps the port closed by default).
+          networking.firewall.allowedTCPPorts = [ 22 ];
+          users.users.ampersand.openssh.authorizedKeys.keys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAgq4WLmBiwg6RosTOBVvvS238p5Ma6PnamZuE6yIIx ampersand@moonwhite"
+          ];
+
           home-manager.users.ampersand = {
             imports = with config.flake.modules.homeManager; [
               base
