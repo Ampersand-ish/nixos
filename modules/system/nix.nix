@@ -2,7 +2,7 @@
 { ... }:
 {
   flake.modules.nixos.nix =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
       nix = {
         channel.enable = false;
@@ -33,7 +33,7 @@
 
       programs.nh = {
         enable = true;
-        flake = "/home/ampersand/Desktop/nixos";
+        flake = lib.mkDefault "/home/ampersand/Desktop/nixos";
         clean = {
           enable = true;
           dates = "weekly";

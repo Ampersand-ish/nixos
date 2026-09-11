@@ -69,6 +69,9 @@
 
           # SSH in from moonwhite (ssh module keeps the port closed by default).
           networking.firewall.allowedTCPPorts = [ 22 ];
+
+          # nh defaults to moonwhite's checkout path; mighty keeps the repo in ~/nixos.
+          programs.nh.flake = "/home/ampersand/nixos";
           users.users.ampersand.openssh.authorizedKeys.keys = [
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAgq4WLmBiwg6RosTOBVvvS238p5Ma6PnamZuE6yIIx ampersand@moonwhite"
           ];
