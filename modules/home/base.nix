@@ -39,7 +39,11 @@
           [ -e "$c/gtk-3.0/noctalia.css" ] || : > "$c/gtk-3.0/noctalia.css"
           [ -e "$c/gtk-4.0/noctalia.css" ] || : > "$c/gtk-4.0/noctalia.css"
           [ -e "$c/ghostty/themes/noctalia" ] || printf 'background = 1e1e2e\nforeground = cdd6f4\n' > "$c/ghostty/themes/noctalia"
-          [ -e "$c/chrome-flags.conf" ] || printf '%s\n' '# chrome-hdr: toggle with `chrome-hdr on|off`' '--disable-features=WaylandWpColorManagerV1' > "$c/chrome-flags.conf"
+          [ -e "$c/chrome-flags.conf" ] || printf '%s\n' \
+            '# chrome-hdr: toggle with `chrome-hdr on|off`' \
+            '--disable-features=WaylandWpColorManagerV1' \
+            '# render on the Intel iGPU: radeonsi corrupts mipmaps on GFX12' \
+            '--render-node-override=/dev/dri/renderD129' > "$c/chrome-flags.conf"
         '';
 
         # Steam's bin_steam.sh requires ~/.steam/steam to be a symlink to the data dir.
