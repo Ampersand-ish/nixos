@@ -46,7 +46,7 @@
 
       environment.systemPackages = with pkgs; [
         git
-        nixfmt-rfc-style
+        nixfmt
         nix-output-monitor
         nvd
       ];

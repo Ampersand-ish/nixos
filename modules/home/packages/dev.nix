@@ -26,7 +26,6 @@
         jdk
         perl
         claude-code
-        gemini-cli
       ];
     };
 }

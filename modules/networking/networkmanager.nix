@@ -22,7 +22,6 @@
       hardware.usb-modeswitch.enable = true;
 
       environment.systemPackages = with pkgs; [
-        networkmanagerapplet
         openconnect
       ];
     };

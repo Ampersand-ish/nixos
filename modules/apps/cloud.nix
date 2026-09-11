@@ -1,4 +1,4 @@
-# Cloud sync and remote access: Dropbox, MEGA, Remmina, AnyDesk, rclone (config out-of-store), sshfs.
+# Cloud sync and remote access: Dropbox, MEGA, AnyDesk, rclone (config out-of-store), sshfs.
 { ... }:
 {
   flake.modules.homeManager.cloud =
@@ -6,19 +6,9 @@
     {
       services.dropbox.enable = true;
 
-      services.megasync = {
-        enable = true;
-        forceWayland = true;
-      };
-
-      services.remmina = {
-        enable = true;
-        systemdService.enable = true;
-        addRdpMimeTypeAssoc = true;
-      };
-
       home.packages = with pkgs; [
         dropbox-cli
+        megasync
         anydesk
         rclone
         sshfs
