@@ -8,7 +8,8 @@ output "Microstep MPG321UX OLED 0x01010101" {
     position x=0 y=0
     variable-refresh-rate on-demand=true
     max-bpc 10
-    hdr mode="auto" {
-        reference-luminance 203
-    }
+    // ISOLATION TEST: HDR signalling off (8-bit scanout already ruled out via NIRI_HDR_FORCE_8BIT).
+    // hdr mode="auto" {
+    //     reference-luminance 203
+    // }
 }
