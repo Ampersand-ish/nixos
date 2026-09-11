@@ -36,8 +36,8 @@
           };
         };
         cursor = {
-          package = pkgs.capitaine-cursors;
-          name = "capitaine-cursors";
+          package = pkgs.bibata-cursors;
+          name = "Bibata-Modern-Classic";
           size = 36;
         };
         opacity = {
