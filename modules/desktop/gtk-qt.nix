@@ -51,6 +51,28 @@
         };
       };
 
+      # Some X apps (FurMark) deref XResourceManagerString() with no NULL guard and crash when the
+      # X RESOURCE_MANAGER property is unset. Nothing populates it under niri/Wayland: HM's xresources
+      # module only runs xrdb in X sessions, so import it into XWayland with a oneshot on session start.
+      xresources.properties."Xft.dpi" = 144;
+
+      systemd.user.services.xrdb-niri = {
+        Unit = {
+          Description = "Import X resources into XWayland (fixes FurMark crash)";
+          PartOf = [ "niri.service" ];
+          After = [ "niri.service" ];
+        };
+        Service = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          Environment = [ "DISPLAY=:0" ];
+          ExecStart = "${pkgs.bash}/bin/bash -c 'for i in $(seq 1 80); do ${pkgs.xrdb}/bin/xrdb -merge $HOME/.Xresources 2>/dev/null && exit 0; sleep 0.25; done'";
+        };
+        Install = {
+          WantedBy = [ "niri.service" ];
+        };
+      };
+
       home.packages = with pkgs; [
         nwg-look
         capitaine-cursors

@@ -11,6 +11,7 @@
         winetricks
         gamescope
         goverlay
+        furmark
         wineWow64Packages.stagingFull # closest in-tree equivalent of wine-cachyos (staging + full deps)
       ];
     };
