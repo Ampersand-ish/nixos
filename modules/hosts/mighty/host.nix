@@ -70,7 +70,7 @@
           # SSH in from moonwhite (ssh module keeps the port closed by default).
           networking.firewall.allowedTCPPorts = [ 22 ];
 
-          # Mesa (radeonsi AND radv) corrupts texture mip levels >= 1 on GFX12 (RX 9070 XT):
+          # GFX12-WORKAROUND: Mesa (radeonsi AND radv) corrupts texture mip levels >= 1 on GFX12 (RX 9070 XT):
           # 16x16 tiles of a mip come back as zeros -> 32x32 black blocks in downscaled
           # images (GTK4 gsk/gpu mipmaps, Qt6 RHI). Standalone repro: ~/gfx12-debug/texprobe.c.
           # Pin only the runtime drivers (/run/opengl-driver) to stable 26.1.8 — no package

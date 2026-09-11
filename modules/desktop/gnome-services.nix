@@ -11,7 +11,7 @@
       services.accounts-daemon.enable = true;
       environment.systemPackages = with pkgs; [
         nautilus
-        # loupe/papers come from home-manager (modules/home/packages/media.nix), wrapped
+        # GFX12-WORKAROUND: loupe/papers come from home-manager (modules/home/packages/media.nix), wrapped
         # to force GSK_RENDERER=cairo — keep only one copy so the wrapper is used.
         file-roller
         gnome-text-editor

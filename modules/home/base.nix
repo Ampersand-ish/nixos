@@ -42,7 +42,7 @@
           [ -e "$c/chrome-flags.conf" ] || printf '%s\n' \
             '# chrome-hdr: toggle with `chrome-hdr on|off`' \
             '--disable-features=WaylandWpColorManagerV1' \
-            '# render on the Intel iGPU: radeonsi corrupts mipmaps on GFX12' \
+            '# GFX12-WORKAROUND: render on the Intel iGPU - radeonsi corrupts mipmaps on GFX12' \
             '--render-node-override=/dev/dri/renderD129' > "$c/chrome-flags.conf"
         '';
 

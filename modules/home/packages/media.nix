@@ -4,7 +4,7 @@
   flake.modules.homeManager.pkgs-media =
     { pkgs, ... }:
     let
-      # radeonsi/radv corrupt mip levels on GFX12; loupe/papers use TRILINEAR scaled
+      # GFX12-WORKAROUND: radeonsi/radv corrupt mip levels on GFX12; loupe/papers use TRILINEAR scaled
       # textures, so GSK_GPU_DISABLE=mipmap can't save them - force cairo.
       loupe-cairo = pkgs.symlinkJoin {
         name = "loupe-cairo";
