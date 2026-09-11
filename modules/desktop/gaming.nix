@@ -11,7 +11,8 @@
         protontricks.enable = true;
         extraCompatPackages = [
           pkgs.proton-ge-bin
-          inputs.nix-proton-cachyos.packages.${pkgs.stdenv.hostPlatform.system}.proton-cachyos
+          # proton-cachyos disabled: upstream nix-proton-cachyos has a stale tarball hash (re-released upstream).
+          # inputs.nix-proton-cachyos.packages.${pkgs.stdenv.hostPlatform.system}.proton-cachyos
         ];
         extraPackages = with pkgs; [
           mangohud
