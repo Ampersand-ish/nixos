@@ -12,6 +12,16 @@
         nativeBuildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
           wrapProgram $out/bin/loupe --set GSK_RENDERER cairo
+          # Loupe is DBusActivatable: its .service file hardcodes the raw pkgs.loupe
+          # binary in Exec, which would bypass the wrapper above. Repoint it so
+          # D-Bus activation also gets GSK_RENDERER=cairo.
+          svc="$out/share/dbus-1/services/org.gnome.Loupe.service"
+          rm -f "$svc"
+          cat > "$svc" <<EOF
+          [D-BUS Service]
+          Name=org.gnome.Loupe
+          Exec=$out/bin/loupe --gapplication-service
+          EOF
         '';
       };
       papers-cairo = pkgs.symlinkJoin {
