@@ -5,7 +5,7 @@
 {
   flake.modules.nixos.mighty-data-disk = {
     fileSystems."/mnt/Files" = {
-      device = "/dev/disk/by-uuid/CHANGEME-4TB-DATA-PARTITION-UUID";
+      device = "/dev/disk/by-uuid/49d02c87-163a-4548-8bd2-aa13609a70ca";
       fsType = "ext4";
       options = [
         "defaults"

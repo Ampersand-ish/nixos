@@ -64,7 +64,7 @@
             swapSize = "40G"; # 32G RAM + headroom for the hibernation image
             kernelVariant = "latest-x86_64-v3";
             gpu = "amdgpu";
-            resumeOffset = null; # post-install: btrfs inspect-internal map-swapfile -r /swap/swapfile
+            resumeOffset = 533760; # post-install: btrfs inspect-internal map-swapfile -r /swap/swapfile
           };
 
           # SSH in from moonwhite (ssh module keeps the port closed by default).
