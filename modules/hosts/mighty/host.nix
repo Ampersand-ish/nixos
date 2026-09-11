@@ -88,6 +88,11 @@
           environment.sessionVariables = {
             GSK_RENDERER = "ngl";
             QSG_RHI_BACKEND = "opengl";
+            # ISOLATION TEST (spicy-niri knob): keep HDR signalling but scan out 8-bit XR24.
+            # niri on mighty creates its DRM compositor with AR30 10-bit + hdr=true; moonwhite
+            # drives the same panel 8-bit SDR (hdr=false) and is clean. Screenshots re-render
+            # to 8-bit, so they cannot see corruption in the 10-bit scanout path.
+            NIRI_HDR_FORCE_8BIT = "1";
           };
 
           # nh defaults to moonwhite's checkout path; mighty keeps the repo in ~/nixos.
