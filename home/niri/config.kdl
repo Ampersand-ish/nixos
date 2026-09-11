@@ -73,7 +73,7 @@ gestures {
 // -----------------------------------------------------------------------------
 
 cursor {
-    xcursor-theme "Bibata-Modern-Classic"
+    xcursor-theme "capitaine-cursors"
     xcursor-size 36
 }
 

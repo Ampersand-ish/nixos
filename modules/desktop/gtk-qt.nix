@@ -41,7 +41,7 @@
         settings = {
           "Net/ThemeName" = "adw-gtk3-dark";
           "Net/IconThemeName" = "Adwaita";
-          "Gtk/CursorThemeName" = "Bibata-Modern-Classic";
+          "Gtk/CursorThemeName" = "capitaine-cursors";
           "Net/EnableEventSounds" = 1;
           "EnableInputFeedbackSounds" = 0;
           "Xft/Antialias" = 1;
@@ -53,7 +53,7 @@
 
       home.packages = with pkgs; [
         nwg-look
-        bibata-cursors
+        capitaine-cursors
       ];
     };
 }

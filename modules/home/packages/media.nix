@@ -19,7 +19,7 @@
         decibels
         snapshot
         loupe
-        # papers disabled: not cached in pinned nixpkgs and source build ICEs (gcc).
+        papers
       ];
     };
 }

@@ -36,8 +36,8 @@
           };
         };
         cursor = {
-          package = pkgs.bibata-cursors;
-          name = "Bibata-Modern-Classic";
+          package = pkgs.capitaine-cursors;
+          name = "capitaine-cursors";
           size = 36;
         };
         opacity = {
@@ -48,6 +48,9 @@
         };
         homeManagerIntegration.followSystem = true;
         homeManagerIntegration.autoImport = true;
+        # gtksourceview theming rebuilds the whole GTKSourceView->libspelling chain
+        # (papers, inkscape, capitaine-cursors), killing cache hits for a cosmetic theme.
+        targets.gtksourceview.enable = false;
       };
     };
 
