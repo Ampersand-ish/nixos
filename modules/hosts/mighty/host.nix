@@ -21,9 +21,16 @@
         mighty-data-disk
         btrfs-maintenance
         zram
-        kernel-cachyos
+        # GFX12 investigation: replace cachyos with mainline zen to rule out cachyos amdgpu patches.
+        # kernel-cachyos
         kernel-tuning
         amdgpu
+        (
+          { pkgs, ... }:
+          {
+            boot.kernelPackages = pkgs.linuxPackages_zen;
+          }
+        )
         tpm
         bluetooth
         audio
