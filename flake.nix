@@ -16,6 +16,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Stable channel, used only to borrow Mesa 26.1.8 for mighty (RADV 26.2.x GFX12 corruption).
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

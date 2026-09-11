@@ -70,6 +70,13 @@
           # SSH in from moonwhite (ssh module keeps the port closed by default).
           networking.firewall.allowedTCPPorts = [ 22 ];
 
+          # RADV 26.2.x (nixos-unstable) corrupts 32x32 pixel tiles on GFX12 (RX 9070 XT)
+          # when GTK4/Qt6 Vulkan renderers handle large textures; 26.1.8 is clean.
+          # Pin only the runtime drivers (/run/opengl-driver) — no package rebuilds.
+          # Revisit on the next Mesa release; remove when upstream fixes GFX12.
+          hardware.graphics.package = inputs.nixpkgs-stable.legacyPackages.x86_64-linux.mesa;
+          hardware.graphics.package32 = inputs.nixpkgs-stable.legacyPackages.x86_64-linux.pkgsi686Linux.mesa;
+
           # nh defaults to moonwhite's checkout path; mighty keeps the repo in ~/nixos.
           programs.nh.flake = "/home/ampersand/nixos";
           users.users.ampersand.openssh.authorizedKeys.keys = [
