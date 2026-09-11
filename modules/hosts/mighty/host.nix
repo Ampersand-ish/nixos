@@ -21,16 +21,9 @@
         mighty-data-disk
         btrfs-maintenance
         zram
-        # zen kernel: swapped in during GFX12 corruption isolation; kept (cachyos not needed here).
-        # kernel-cachyos
+        kernel-cachyos
         kernel-tuning
         amdgpu
-        (
-          { pkgs, ... }:
-          {
-            boot.kernelPackages = pkgs.linuxPackages_zen;
-          }
-        )
         tpm
         bluetooth
         audio
@@ -77,22 +70,21 @@
           # SSH in from moonwhite (ssh module keeps the port closed by default).
           networking.firewall.allowedTCPPorts = [ 22 ];
 
-          # RADV 26.2.x (nixos-unstable) corrupts 32x32 pixel tiles on GFX12 (RX 9070 XT)
-          # when GTK4/Qt6 Vulkan renderers handle large textures. Pin only the runtime
-          # drivers (/run/opengl-driver) to stable 26.1.8 — no package rebuilds.
-          # Vulkan paths (GSK default, Qt RHI) still corrupt even on 26.1.8, so force
-          # the GL backends for GTK4 (ngl) and Qt Quick (opengl) session-wide.
-          # Revisit on the next Mesa/Qt releases; remove when GFX12 behaves.
+          # Mesa (radeonsi AND radv) corrupts texture mip levels >= 1 on GFX12 (RX 9070 XT):
+          # 16x16 tiles of a mip come back as zeros -> 32x32 black blocks in downscaled
+          # images (GTK4 gsk/gpu mipmaps, Qt6 RHI). Standalone repro: ~/gfx12-debug/texprobe.c.
+          # Pin only the runtime drivers (/run/opengl-driver) to stable 26.1.8 — no package
+          # rebuilds — and force the GL backends for GTK4 (ngl) and Qt Quick (opengl), which
+          # limit the damage to mipmapped/trilinear textures. Remove once Mesa is fixed.
           hardware.graphics.package = inputs.nixpkgs-stable.legacyPackages.x86_64-linux.mesa;
           hardware.graphics.package32 = inputs.nixpkgs-stable.legacyPackages.x86_64-linux.pkgsi686Linux.mesa;
           environment.sessionVariables = {
             GSK_RENDERER = "ngl";
+            # Hide the mip corruption from GTK apps that use plain texture nodes
+            # (parsed in gskgpurenderer -> works on the default vulkan backend too;
+            # loupe uses scaled textures (TRILINEAR) -> forced to cairo via a wrapped binary).
+            GSK_GPU_DISABLE = "mipmap";
             QSG_RHI_BACKEND = "opengl";
-            # ISOLATION TEST (spicy-niri knob): keep HDR signalling but scan out 8-bit XR24.
-            # niri on mighty creates its DRM compositor with AR30 10-bit + hdr=true; moonwhite
-            # drives the same panel 8-bit SDR (hdr=false) and is clean. Screenshots re-render
-            # to 8-bit, so they cannot see corruption in the 10-bit scanout path.
-            NIRI_HDR_FORCE_8BIT = "1";
           };
 
           # nh defaults to moonwhite's checkout path; mighty keeps the repo in ~/nixos.
