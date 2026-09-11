@@ -71,11 +71,14 @@
           networking.firewall.allowedTCPPorts = [ 22 ];
 
           # RADV 26.2.x (nixos-unstable) corrupts 32x32 pixel tiles on GFX12 (RX 9070 XT)
-          # when GTK4/Qt6 Vulkan renderers handle large textures; 26.1.8 is clean.
-          # Pin only the runtime drivers (/run/opengl-driver) — no package rebuilds.
-          # Revisit on the next Mesa release; remove when upstream fixes GFX12.
+          # when GTK4/Qt6 Vulkan renderers handle large textures. Pin only the runtime
+          # drivers (/run/opengl-driver) to stable 26.1.8 — no package rebuilds.
+          # GTK4-vulkan (loupe) is clean on 26.1.8, but Qt6-vulkan (noctalia wallpaper)
+          # still corrupts even there, so force Qt Quick to its GL backend session-wide.
+          # Revisit both on the next Mesa/Qt releases; remove when GFX12 behaves.
           hardware.graphics.package = inputs.nixpkgs-stable.legacyPackages.x86_64-linux.mesa;
           hardware.graphics.package32 = inputs.nixpkgs-stable.legacyPackages.x86_64-linux.pkgsi686Linux.mesa;
+          environment.sessionVariables.QSG_RHI_BACKEND = "opengl";
 
           # nh defaults to moonwhite's checkout path; mighty keeps the repo in ~/nixos.
           programs.nh.flake = "/home/ampersand/nixos";
