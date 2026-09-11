@@ -104,6 +104,8 @@
               pkgs-office
             ];
             desktop.niri.outputs = builtins.readFile ../../../home/niri/hosts/mighty/outputs.kdl;
+            # Repo checkout on mighty is ~/nixos, not ~/Desktop/nixos — out-of-store symlinks point there.
+            desktop.flakeDir = "/home/ampersand/nixos";
           };
 
           system.stateVersion = "26.05";
