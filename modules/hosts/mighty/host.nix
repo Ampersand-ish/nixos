@@ -21,7 +21,7 @@
         mighty-data-disk
         btrfs-maintenance
         zram
-        # GFX12 investigation: replace cachyos with mainline zen to rule out cachyos amdgpu patches.
+        # zen kernel: swapped in during GFX12 corruption isolation; kept (cachyos not needed here).
         # kernel-cachyos
         kernel-tuning
         amdgpu
