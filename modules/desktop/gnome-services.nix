@@ -12,7 +12,7 @@
       environment.systemPackages = with pkgs; [
         nautilus
         loupe
-        papers
+        # papers disabled: not cached in pinned nixpkgs and source build ICEs (gcc).
         file-roller
         gnome-text-editor
         gnome-calculator
