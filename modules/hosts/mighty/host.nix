@@ -26,9 +26,11 @@
         kernel-tuning
         amdgpu
         (
-          { pkgs, ... }:
+          { pkgs, lib, ... }:
           {
             boot.kernelPackages = pkgs.linuxPackages_zen;
+            # GFX12 isolation test: plain upstream niri instead of the spicy fork.
+            programs.niri.package = lib.mkForce pkgs.niri;
           }
         )
         tpm

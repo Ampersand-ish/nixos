@@ -1,14 +1,10 @@
 // Output configuration for mighty (MSI MPG321URX OLED, single monitor).
-// Contributed via desktop.niri.outputs; the HDR/max-bpc nodes are spicy-niri syntax.
+// Contributed via desktop.niri.outputs.
+// HDR/max-bpc/VRR nodes are spicy-niri syntax — stripped while testing plain niri.
 
 output "Microstep MPG321UX OLED 0x01010101" {
     mode "3840x2160@239.990"
     scale 1.5
     transform "normal"
     position x=0 y=0
-    variable-refresh-rate on-demand=true
-    max-bpc 10
-    hdr mode="auto" {
-        reference-luminance 203
-    }
 }
