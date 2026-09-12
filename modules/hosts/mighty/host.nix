@@ -20,9 +20,9 @@
         disko-luks-btrfs
         mighty-data-disk
         btrfs-maintenance
-        zram
         kernel-cachyos
         kernel-tuning
+        kernel-cachyos-settings
         amdgpu
         tpm
         bluetooth

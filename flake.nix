@@ -65,6 +65,12 @@
     # nixpkgs the kernels were built against to hit the lantian binary cache.
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
+    # CachyOS-Settings as a standalone NixOS module (sysctl, udev, systemd, ZRAM, THP, I/O).
+    cachyos-settings = {
+      url = "github:Daaboulex/cachyos-settings-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # spicy-niri: losnoco's niri fork + its smithay fork (sibling path dep).
     niri-spicy-src = {
       url = "github:losnoco/niri/spicy-main";

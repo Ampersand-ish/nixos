@@ -18,9 +18,9 @@
         disko-luks-btrfs
         files-disk
         btrfs-maintenance
-        zram
         kernel-cachyos
         kernel-tuning
+        kernel-cachyos-settings
         nvidia
         asus
         tpm
