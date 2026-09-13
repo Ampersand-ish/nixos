@@ -70,23 +70,6 @@
           # SSH in from moonwhite (ssh module keeps the port closed by default).
           networking.firewall.allowedTCPPorts = [ 22 ];
 
-          # GFX12-WORKAROUND: Mesa (radeonsi AND radv) corrupts texture mip levels >= 1 on GFX12 (RX 9070 XT):
-          # 16x16 tiles of a mip come back as zeros -> 32x32 black blocks in downscaled
-          # images (GTK4 gsk/gpu mipmaps, Qt6 RHI). Standalone repro: ~/gfx12-debug/texprobe.c.
-          # Pin only the runtime drivers (/run/opengl-driver) to stable 26.1.8 — no package
-          # rebuilds — and force the GL backends for GTK4 (ngl) and Qt Quick (opengl), which
-          # limit the damage to mipmapped/trilinear textures. Remove once Mesa is fixed.
-          hardware.graphics.package = inputs.nixpkgs-stable.legacyPackages.x86_64-linux.mesa;
-          hardware.graphics.package32 = inputs.nixpkgs-stable.legacyPackages.x86_64-linux.pkgsi686Linux.mesa;
-          environment.sessionVariables = {
-            GSK_RENDERER = "ngl";
-            # Hide the mip corruption from GTK apps that use plain texture nodes
-            # (parsed in gskgpurenderer -> works on the default vulkan backend too;
-            # loupe uses scaled textures (TRILINEAR) -> forced to cairo via a wrapped binary).
-            GSK_GPU_DISABLE = "mipmap";
-            QSG_RHI_BACKEND = "opengl";
-          };
-
           # nh defaults to moonwhite's checkout path; mighty keeps the repo in ~/nixos.
           programs.nh.flake = "/home/ampersand/nixos";
           users.users.ampersand.openssh.authorizedKeys.keys = [

@@ -634,22 +634,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-stable_2": {
-      "locked": {
-        "lastModified": 1789114715,
-        "narHash": "sha256-ugpsyk3NM2s87vXfUiIIiibbJ4Pp0JPS5p/3mfs+q+c=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "21a67dc470149f337cecafbe965d8d252a390518",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-26.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1767892417,
@@ -761,7 +745,6 @@
         "nix-proton-cachyos": "nix-proton-cachyos",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-stable": "nixpkgs-stable_2",
         "noctalia-shell": "noctalia-shell",
         "smithay-spicy-src": "smithay-spicy-src",
         "sops-nix": "sops-nix",

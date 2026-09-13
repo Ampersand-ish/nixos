@@ -1,0 +1,71 @@
+# TEMPORARY specialisation for the GFX12 RMA test on mighty.
+# Adds a second lanzaboote boot entry "vfio-win" that passes the RX 9070 XT
+# (PCI 04:00.0 / 1002:7550 + 04:00.1 audio / 1002:ab40) through to a Windows 11
+# libvirt VM. The host drives the Intel Arrow Lake iGPU (i915) in this entry.
+# The default boot entry is untouched. Remove this file (plus the host.nix
+# module entry and ~/gfx12-debug/win-vfio/) once the RMA test is over.
+# Usage: boot the vfio-win entry, run ./win-vfio/mkvm.sh, then virt-manager.
+{ ... }:
+{
+  flake.modules.nixos.mighty-vfio-win =
+    { lib, pkgs, ... }:
+    {
+      specialisation.vfio-win.configuration = {
+        system.nixos.tags = [ "vfio-win" ];
+
+        # Keep the amdgpu driver away from the RX 9070 XT so libvirt can pass it
+        # through; the host uses the Intel iGPU instead.
+        boot.blacklistedKernelModules = [ "amdgpu" ];
+        hardware.amdgpu.initrd.enable = lib.mkForce false;
+        services.xserver.videoDrivers = lib.mkForce [ "modesetting" ];
+
+        # The 9070 XT is the firmware boot GPU; without amdgpu its UEFI framebuffer
+        # stays alive as simpledrm (card0) and niri picks it as primary GPU, which has
+        # no render node. Pin rendering to the iGPU by injecting render-drm-device
+        # into the existing `debug {` block (niri rejects a second debug node).
+        # (BIOS "Primary Display: CPU Graphics" would make this unnecessary.)
+        home-manager.users.ampersand =
+          { config, lib, ... }:
+          {
+            programs.niri.config = lib.mkForce (
+              lib.concatStringsSep "\n" [
+                (builtins.replaceStrings [ "debug {" ] [
+                  ''
+                    debug {
+                        render-drm-device "/dev/dri/by-path/pci-0000:00:02.0-render"''
+                ] (builtins.readFile ../../../home/niri/config.kdl))
+                "// ---- host outputs (desktop.niri.outputs) ----"
+                config.desktop.niri.outputs
+                "// ---- noctalia colour overrides, written at runtime ----"
+                ''include optional=true "noctalia.kdl"''
+              ]
+            );
+          };
+
+        # IOMMU + vfio kernel modules. libvirt (managed='yes') does the bind/unbind.
+        boot.kernelParams = [ "intel_iommu=on" "iommu=pt" ];
+        boot.kernelModules = [ "vfio_pci" "vfio" "vfio_iommu_type1" ];
+
+        virtualisation.libvirtd = {
+          enable = true;
+          qemu = {
+            package = pkgs.qemu_kvm;
+            runAsRoot = true;
+            swtpm.enable = true;
+          };
+        };
+        programs.virt-manager.enable = true;
+        # swtpm_setup runs swtpm_localca as tss:tss and needs its statedir to exist
+        systemd.tmpfiles.rules = [ "d /var/lib/swtpm-localca 0750 tss tss - -" ];
+        virtualisation.spiceUSBRedirection.enable = true;
+        users.users.ampersand.extraGroups = [ "libvirtd" "kvm" ];
+        environment.systemPackages = with pkgs; [
+          virtio-win # guest drivers; mkvm.sh builds a driver ISO from this tree
+          virt-viewer
+          pciutils
+          OVMFFull.fd # secure-boot OVMF: FV/OVMF_CODE.ms.fd + FV/OVMF_VARS.ms.fd
+          cdrtools # mkisofs, used by mkvm.sh to build the virtio-win ISO
+        ];
+      };
+    };
+}
