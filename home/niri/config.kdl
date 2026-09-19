@@ -326,6 +326,7 @@ binds {
     XF86AudioMute { spawn-sh "noctalia msg volume-mute"; }
     XF86MonBrightnessUp { spawn-sh "noctalia msg brightness-up"; }
     XF86MonBrightnessDown { spawn-sh "noctalia msg brightness-down"; }
+    Mod+grave { spawn-sh "ddcutil setvcp 60 0x10"; }
 
     // Applications
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
