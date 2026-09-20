@@ -7,7 +7,6 @@
       home.packages = with pkgs; [
         vlc
         handbrake
-        lollypop
         ffmpegthumbnailer
         chromaprint
         libdvdcss

@@ -2,8 +2,14 @@
 { ... }:
 {
   flake.modules.homeManager.mpd =
-    { config, ... }:
+    { config, pkgs, ... }:
     {
+      home.packages = [ pkgs.cantata ];
+
+      # mpd-mpris starts at login and holds a connection, so MPD runs from login on
+      # (startWhenNeeded below stays, but is effectively moot with MPRIS enabled).
+      services.mpd-mpris.enable = true;
+
       services.mpd = {
         enable = true;
         # ~/Music is a symlink to /mnt/Files/Music on the desktop
