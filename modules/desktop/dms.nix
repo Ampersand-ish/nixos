@@ -19,6 +19,11 @@
         systemd.enable = false; # spawned by niri spawn-at-startup instead
 
         settings = {
+          # Undefined Medium for DMS only; stylix's sansSerif (Adwaita Sans)
+          # keeps serving everything else.
+          fontFamily = lib.mkForce "Undefined Medium";
+          lockScreenFontFamily = lib.mkForce "Undefined Medium";
+
           # Runtime UI choice: dynamic matugen theming (stylix target would set
           # "custom"; it still owns customThemeFile, unused while dynamic is on).
           currentThemeName = lib.mkForce "dynamic";

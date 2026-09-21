@@ -276,16 +276,14 @@ window-rule {
 
 // Layer rules
 
-// DMS shell surfaces: translucent bar/panels
+// DMS shell surfaces: opaque bar/panels
 layer-rule {
     match namespace=r"^dms:"
-    opacity 0.95
     background-effect {
         xray false
         blur false
     }
     popups {
-        opacity 0.98
         geometry-corner-radius 15
         background-effect {
             xray false
