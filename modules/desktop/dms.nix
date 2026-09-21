@@ -1,4 +1,7 @@
 # DankMaterialShell (dms) — bar/launcher/lock/idle/notifications/wallpaper/polkit.
+# Inactive fallback (noctalia is active). To swap: replace the hosts' `noctalia`
+# import with `dms`, drop the sharedModules entry in modules/system/home-manager.nix,
+# and swap niri spawn/includes/keybinds (see commit cf2d9f4 for the dms versions).
 # Spawned by niri (spawn-at-startup "dms run"), so its systemd unit is off.
 # settings.json is written declaratively via programs.dank-material-shell.settings
 # (merged with the stylix target's theme/font/transparency keys); it captures the

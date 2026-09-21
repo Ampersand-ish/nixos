@@ -12,7 +12,7 @@
         package = pkgs.niri-spicy;
       };
       niri-flake.cache.enable = false; # substituters are managed centrally in system/nix.nix
-      # dms provides the polkit agent; disable niri-flake's KDE agent.
+      # noctalia provides the polkit agent; disable niri-flake's KDE agent.
       systemd.user.services.niri-flake-polkit.enable = false;
       environment.systemPackages = with pkgs; [
         xwayland-satellite
@@ -40,15 +40,10 @@
           (builtins.readFile ../../home/niri/config.kdl)
           "// ---- host outputs (desktop.niri.outputs) ----"
           config.desktop.niri.outputs
-          "// ---- dms compositor fragments, written at runtime ----"
-          (lib.concatMapStringsSep "\n" (f: ''include optional=true "dms/${f}.kdl"'') [
-            "colors"
-            "layout"
-            "alttab"
-            "binds"
-          ])
+          "// ---- noctalia colour overrides, written at runtime ----"
+          ''include optional=true "noctalia.kdl"''
         ];
-        # niri-flake auto-imports its stylix target; dms owns colours.
+        # niri-flake auto-imports its stylix target; noctalia owns colours.
         stylix.targets.niri.enable = false;
       };
     };

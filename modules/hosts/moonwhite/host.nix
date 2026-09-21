@@ -70,7 +70,7 @@
               base
               shell
               niri
-              dms
+              noctalia
               stylix
               gtk-qt
               portals-mime

@@ -1,4 +1,4 @@
-# vm: validates the flake wiring + niri/DMS/SDDM/home-manager in QEMU (no LUKS, no Secure Boot, no NVIDIA).
+# vm: validates the flake wiring + niri/noctalia/SDDM/home-manager in QEMU (no LUKS, no Secure Boot, no NVIDIA).
 #   nixos-rebuild build-vm --flake .#vm && ./result/bin/run-vm-vm
 { inputs, config, ... }:
 {
@@ -90,7 +90,7 @@
                 base
                 shell
                 niri
-                dms
+                noctalia
                 stylix
                 gtk-qt
                 portals-mime

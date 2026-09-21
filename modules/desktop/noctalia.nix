@@ -1,9 +1,6 @@
-# noctalia shell (bar/launcher/lock/idle/notifications/wallpaper). Retained as an
-# inactive fallback: to swap back, restore the host imports (noctalia instead of
-# dms) AND the sharedModules entry `inputs.noctalia-shell.homeModules.default`
-# in modules/system/home-manager.nix, then swap niri spawn/includes/keybinds.
-# Spawned by niri (spawn-at-startup), so its systemd unit is off.
-# Runtime GUI state lives in ~/.local/state/noctalia/settings.toml (delete it once after migrating).
+# noctalia shell (bar/launcher/lock/idle/notifications/wallpaper). Spawned by
+# niri (spawn-at-startup), so its systemd unit is off.
+# Runtime GUI state lives in ~/.local/state/noctalia/settings.toml.
 { ... }:
 {
   flake.modules.homeManager.noctalia =
