@@ -1,4 +1,4 @@
-# vm: validates the flake wiring + niri/noctalia/SDDM/home-manager in QEMU (no LUKS, no Secure Boot, no NVIDIA).
+# vm: validates the flake wiring + niri/DMS/SDDM/home-manager in QEMU (no LUKS, no Secure Boot, no NVIDIA).
 #   nixos-rebuild build-vm --flake .#vm && ./result/bin/run-vm-vm
 { inputs, config, ... }:
 {
@@ -51,7 +51,9 @@
 
             # No sops in the VM: static password. sshd + port-forward for debugging from the host.
             users.users.ampersand.initialPassword = "vm";
-            users.users.ampersand.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAgq4WLmBiwg6RosTOBVvvS238p5Ma6PnamZuE6yIIx " ];
+            users.users.ampersand.openssh.authorizedKeys.keys = [
+              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAgq4WLmBiwg6RosTOBVvvS238p5Ma6PnamZuE6yIIx "
+            ];
             services.openssh = {
               enable = true;
               settings.PasswordAuthentication = true;
@@ -88,7 +90,7 @@
                 base
                 shell
                 niri
-                noctalia
+                dms
                 stylix
                 gtk-qt
                 portals-mime

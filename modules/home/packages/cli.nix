@@ -14,6 +14,7 @@
         unzip
         unrar
         wget
+        libqalculate
       ];
     };
 }

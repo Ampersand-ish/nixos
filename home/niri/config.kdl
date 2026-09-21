@@ -7,7 +7,7 @@
 // Autostart & Environment
 // -----------------------------------------------------------------------------
 
-spawn-at-startup "noctalia"
+spawn-at-startup "dms" "run"
 spawn-at-startup "dbus-update-activation-environment" "--all"
 // udiskie is started by home-manager (services.udiskie)
 
@@ -276,9 +276,9 @@ window-rule {
 
 // Layer rules
 
-// Noctalia shell surfaces: translucent bar/panels, blurred popups
+// DMS shell surfaces: translucent bar/panels
 layer-rule {
-    match namespace=r#"^noctalia-(bar-[^"]+|notification|dock|panel|attached-panel|osd)$"#
+    match namespace=r"^dms:"
     opacity 0.95
     background-effect {
         xray false
@@ -294,10 +294,10 @@ layer-rule {
     }
 }
 
-// Wallpaper / quickshell backdrop surfaces render behind the overview
+// DMS wallpaper renders behind the overview
 layer-rule {
     match namespace="^quickshell$"
-    match namespace="^noctalia-wallpaper"
+    match namespace="^dms:blurwallpaper$"
     place-within-backdrop true
 }
 
@@ -313,20 +313,23 @@ blur {
 // -----------------------------------------------------------------------------
 
 binds {
-    // Noctalia & System Panels
-    Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
-    Mod+S { spawn-sh "noctalia msg panel-toggle control-center"; }
-    Mod+Comma { spawn-sh "noctalia msg settings-toggle"; }
-    Mod+X repeat=false { spawn-sh "noctalia msg panel-toggle session"; }
-    Mod+V repeat=false { spawn-sh "noctalia msg panel-toggle clipboard"; }
+    // DMS & System Panels
+    Mod+Space { spawn-sh "dms ipc call spotlight toggle"; }
+    Mod+S { spawn "dms" "ipc" "call" "dash" "toggle" ""; }
+    Mod+Comma { spawn-sh "dms ipc call settings toggle"; }
+    Mod+X repeat=false { spawn-sh "dms ipc call powermenu toggle"; }
+    Mod+V repeat=false { spawn-sh "dms ipc call clipboard toggle"; }
 
     // Media & Brightness
-    XF86AudioRaiseVolume { spawn-sh "noctalia msg volume-up 2"; }
-    XF86AudioLowerVolume { spawn-sh "noctalia msg volume-down 2"; }
-    XF86AudioMute { spawn-sh "noctalia msg volume-mute"; }
-    XF86MonBrightnessUp { spawn-sh "noctalia msg brightness-up"; }
-    XF86MonBrightnessDown { spawn-sh "noctalia msg brightness-down"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "2"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "2"; }
+    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
     Mod+grave { spawn-sh "ddcutil setvcp 60 0x10"; }
+
+    // Lock
+    Mod+Alt+L allow-when-locked=true { spawn "dms" "ipc" "call" "lock" "lock"; }
 
     // Applications
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
@@ -461,4 +464,4 @@ binds {
     Mod+Shift+E { quit; }
 }
 
-// The host output blocks and `include optional=true "noctalia.kdl"` are appended by modules/desktop/niri.nix
+// The host output blocks and `include optional=true "dms/colors.kdl"` fragments are appended by modules/desktop/niri.nix

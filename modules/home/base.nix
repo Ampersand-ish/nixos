@@ -33,15 +33,38 @@
           config.lib.file.mkOutOfStoreSymlink "${config.desktop.flakeDir}/home/wallpapers";
 
         home.activation.seedGenerated = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          c="${config.xdg.configHome}"
-          mkdir -p "$c/niri" "$c/ghostty/themes" "$c/btop/themes" "$c/gtk-3.0" "$c/gtk-4.0" "$c/bat/themes"
-          [ -e "$c/niri/noctalia.kdl" ] || : > "$c/niri/noctalia.kdl"
-          [ -e "$c/gtk-3.0/noctalia.css" ] || : > "$c/gtk-3.0/noctalia.css"
-          [ -e "$c/gtk-4.0/noctalia.css" ] || : > "$c/gtk-4.0/noctalia.css"
-          [ -e "$c/ghostty/themes/noctalia" ] || printf 'background = 1e1e2e\nforeground = cdd6f4\n' > "$c/ghostty/themes/noctalia"
-          [ -e "$c/chrome-flags.conf" ] || printf '%s\n' \
-            '# chrome-hdr: toggle with `chrome-hdr on|off`' \
-            '--disable-features=WaylandWpColorManagerV1' > "$c/chrome-flags.conf"
+                    c="${config.xdg.configHome}"
+                    mkdir -p "$c/niri" "$c/niri/dms" "$c/ghostty/themes" "$c/btop/themes" "$c/gtk-3.0" "$c/gtk-4.0" "$c/bat/themes"
+                    [ -e "$c/niri/noctalia.kdl" ] || : > "$c/niri/noctalia.kdl"
+                    [ -e "$c/gtk-3.0/noctalia.css" ] || : > "$c/gtk-3.0/noctalia.css"
+                    [ -e "$c/gtk-4.0/noctalia.css" ] || : > "$c/gtk-4.0/noctalia.css"
+                    [ -e "$c/ghostty/themes/noctalia" ] || printf 'background = 1e1e2e\nforeground = cdd6f4\n' > "$c/ghostty/themes/noctalia"
+                    [ -e "$c/niri/dms/colors.kdl" ] || : > "$c/niri/dms/colors.kdl"
+                    # dms/layout.kdl is DMS's source of truth for the niri xray setting: it
+                    # reads the file once, and treats "xray false" as the persisted choice.
+                    # Create it if absent (DMS regenerates the rest on next start), then
+                    # append the xray-off rules whenever the marker is missing.
+                    [ -e "$c/niri/dms/layout.kdl" ] || : > "$c/niri/dms/layout.kdl"
+                    grep -q "xray false" "$c/niri/dms/layout.kdl" || cat >> "$c/niri/dms/layout.kdl" <<'KDL'
+
+          layer-rule {
+              background-effect {
+                  xray false
+              }
+          }
+
+          window-rule {
+              match app-id="^com.danklinux.dms$"
+              background-effect {
+                  xray false
+              }
+          }
+          KDL
+                    [ -e "$c/niri/dms/alttab.kdl" ] || : > "$c/niri/dms/alttab.kdl"
+                    [ -e "$c/niri/dms/binds.kdl" ] || : > "$c/niri/dms/binds.kdl"
+                    [ -e "$c/chrome-flags.conf" ] || printf '%s\n' \
+                      '# chrome-hdr: toggle with `chrome-hdr on|off`' \
+                      '--disable-features=WaylandWpColorManagerV1' > "$c/chrome-flags.conf"
         '';
 
         # Steam's bin_steam.sh requires ~/.steam/steam to be a symlink to the data dir.

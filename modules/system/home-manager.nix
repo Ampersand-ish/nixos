@@ -11,7 +11,6 @@
         inherit inputs;
       };
       sharedModules = [
-        inputs.noctalia-shell.homeModules.default
         inputs.sops-nix.homeManagerModules.sops
       ];
       users.ampersand = {

@@ -52,6 +52,16 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # DankMaterialShell (tracks the latest release tag via the stable branch).
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # DankSearch (dsearch): fast file search backing the DMS launcher.
+    danksearch = {
+      url = "github:AvengeMedia/danksearch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Proton-CachyOS (community package; auto-tracks CachyOS releases).
     nix-proton-cachyos = {

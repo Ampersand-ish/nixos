@@ -2,13 +2,32 @@
 { ... }:
 {
   flake.modules.homeManager.mpd =
-    { config, pkgs, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     {
       home.packages = [ pkgs.cantata ];
 
       # mpd-mpris starts at login and holds a connection, so MPD runs from login on
       # (startWhenNeeded below stays, but is effectively moot with MPRIS enabled).
       services.mpd-mpris.enable = true;
+
+      # Bind the MPD stack to the graphical session: stops on logout instead of
+      # surviving it (the default, since logind.killUserProcesses is false).
+      systemd.user = {
+        sockets.mpd.Unit = {
+          PartOf = [ "graphical-session.target" ];
+          WantedBy = lib.mkForce [ "graphical-session.target" ];
+        };
+        services.mpd.Unit.PartOf = [ "graphical-session.target" ];
+        services.mpd-mpris.Unit = {
+          PartOf = [ "graphical-session.target" ];
+          WantedBy = lib.mkForce [ "graphical-session.target" ];
+        };
+      };
 
       services.mpd = {
         enable = true;

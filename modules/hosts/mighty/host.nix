@@ -81,7 +81,7 @@
               base
               shell
               niri
-              noctalia
+              dms
               stylix
               gtk-qt
               portals-mime
