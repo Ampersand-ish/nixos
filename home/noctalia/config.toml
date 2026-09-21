@@ -25,7 +25,7 @@ font_weight = 500
 hover_highlight = false
 margin_ends = 500
 padding = 12
-position = "top"
+position = "bottom"
 reserve_space = false
 scale = 1.0500000081956387
 show_on_workspace_switch = false
@@ -172,10 +172,11 @@ settings_show_advanced = true
 enabled = false
 
 [theme]
+builtin = "Noctalia"
 community_palette = "Oxocarbon"
 mode = "dark"
 source = "wallpaper"
-wallpaper_scheme = "m3-content"
+wallpaper_scheme = "m3-tonal-spot"
 
     [theme.templates]
     builtin_ids = [ "btop", "gtk3", "gtk4", "ghostty", "niri", "qt" ]
@@ -188,9 +189,10 @@ transition = [ "fade" ]
 
     [wallpaper.automation]
     enabled = true
+    interval_seconds = 3600
 
     [wallpaper.default]
-    path = "/home/ampersand/Pictures/Wallpapers/planets/wallhaven-5y5dg7.jpg"
+    path = "/home/ampersand/Pictures/Wallpapers/planets/wallhaven-8x28vj.jpg"
 
 [weather]
 effects = false
@@ -200,7 +202,7 @@ anchor = true
 scale = 1.1500000000000001
 
 [widget.control-center]
-glyph = "navigation-filled"
+glyph = "settings-2"
 
 [widget.media]
 art_size = 60.0
