@@ -1,0 +1,36 @@
+// DMS (DankMaterialShell)-specific niri config: autostart, layer rules,
+// runtime includes. Appended to config.kdl by
+// modules/desktop/niri.nix when programs.dank-material-shell is the enabled
+// shell.
+
+spawn-at-startup "dms" "run"
+
+// DMS shell surfaces: opaque bar/panels
+layer-rule {
+    match namespace=r"^dms:"
+    background-effect {
+        xray false
+        blur false
+    }
+    popups {
+        geometry-corner-radius 15
+        background-effect {
+            xray false
+            blur true
+        }
+    }
+}
+
+// DMS wallpaper renders behind the overview
+layer-rule {
+    match namespace="^quickshell$"
+    match namespace="^dms:blurwallpaper$"
+    place-within-backdrop true
+}
+
+
+// ---- dms compositor fragments, written at runtime ----
+include optional=true "dms/colors.kdl"
+include optional=true "dms/layout.kdl"
+include optional=true "dms/alttab.kdl"
+include optional=true "dms/binds.kdl"

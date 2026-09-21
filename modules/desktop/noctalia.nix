@@ -1,5 +1,6 @@
 # noctalia shell (bar/launcher/lock/idle/notifications/wallpaper). Spawned by
-# niri (spawn-at-startup), so its systemd unit is off.
+# niri (spawn-at-startup from home/niri/shell-noctalia.kdl), so its systemd
+# unit is off.
 # Runtime GUI state lives in ~/.local/state/noctalia/settings.toml.
 { ... }:
 {

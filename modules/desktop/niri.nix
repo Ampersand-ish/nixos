@@ -36,14 +36,25 @@
 
       config = {
         programs.niri.package = pkgs.niri-spicy;
-        programs.niri.config = lib.concatStringsSep "\n" [
-          (builtins.readFile ../../home/niri/config.kdl)
-          "// ---- host outputs (desktop.niri.outputs) ----"
-          config.desktop.niri.outputs
-          "// ---- noctalia colour overrides, written at runtime ----"
-          ''include optional=true "noctalia.kdl"''
-        ];
-        # niri-flake auto-imports its stylix target; noctalia owns colours.
+        programs.niri.config =
+          let
+            # Build-time selection of the active shell fragment (autostart,
+            # layer rules, keybinds, runtime includes).
+            shell = if (config.programs.dank-material-shell or { }).enable or false then "dms" else "noctalia";
+          in
+          lib.concatStringsSep "\n" [
+            (builtins.readFile ../../home/niri/config.kdl)
+            "// ---- host outputs (desktop.niri.outputs) ----"
+            config.desktop.niri.outputs
+            "// ---- ${shell} autostart / layer rules / runtime includes (selected at build time) ----"
+            (builtins.readFile (../../home/niri + "/shell-${shell}.kdl"))
+            "// ---- keybinds: binds-common.kdl + binds-${shell}.kdl ----"
+            "binds {"
+            (builtins.readFile ../../home/niri/binds-common.kdl)
+            (builtins.readFile (../../home/niri + "/binds-${shell}.kdl"))
+            "}"
+          ];
+        # niri-flake auto-imports its stylix target; the shell owns colours.
         stylix.targets.niri.enable = false;
       };
     };

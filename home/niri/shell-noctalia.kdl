@@ -1,0 +1,36 @@
+// noctalia-specific niri config: autostart, layer rules, runtime
+// includes. Appended to config.kdl by modules/desktop/niri.nix when
+// programs.noctalia is the enabled shell.
+
+spawn-at-startup "noctalia"
+
+// Layer rules
+
+// Noctalia shell surfaces: translucent bar/panels, blurred popups
+layer-rule {
+    match namespace=r#"^noctalia-(bar-[^"]+|notification|dock|panel|attached-panel|osd)$"#
+    opacity 0.95
+    background-effect {
+        xray false
+        blur false
+    }
+    popups {
+        opacity 0.98
+        geometry-corner-radius 15
+        background-effect {
+            xray false
+            blur true
+        }
+    }
+}
+
+// Wallpaper / quickshell backdrop surfaces render behind the overview
+layer-rule {
+    match namespace="^quickshell$"
+    match namespace="^noctalia-wallpaper"
+    place-within-backdrop true
+}
+
+
+// ---- noctalia colour overrides, written at runtime ----
+include optional=true "noctalia.kdl"

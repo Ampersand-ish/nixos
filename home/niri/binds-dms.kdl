@@ -1,0 +1,19 @@
+// DMS-specific keybinds (inner content; wrapped into the single `binds` node
+// by modules/desktop/niri.nix together with binds-common.kdl).
+
+    // DMS & System Panels
+    Mod+Space { spawn-sh "dms ipc call spotlight toggle"; }
+    Mod+S { spawn "dms" "ipc" "call" "dash" "toggle" ""; }
+    Mod+Comma { spawn-sh "dms ipc call settings toggle"; }
+    Mod+X repeat=false { spawn-sh "dms ipc call powermenu toggle"; }
+    Mod+V repeat=false { spawn-sh "dms ipc call clipboard toggle"; }
+
+    // Media & Brightness
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "2"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "2"; }
+    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
+
+    // Lock
+    Mod+Alt+L allow-when-locked=true { spawn "dms" "ipc" "call" "lock" "lock"; }

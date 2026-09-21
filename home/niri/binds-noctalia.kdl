@@ -1,0 +1,16 @@
+// noctalia-specific keybinds (inner content; wrapped into the single `binds`
+// node by modules/desktop/niri.nix together with binds-common.kdl).
+
+    // Noctalia & System Panels
+    Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
+    Mod+S { spawn-sh "noctalia msg panel-toggle control-center"; }
+    Mod+Comma { spawn-sh "noctalia msg settings-toggle"; }
+    Mod+X repeat=false { spawn-sh "noctalia msg panel-toggle session"; }
+    Mod+V repeat=false { spawn-sh "noctalia msg panel-toggle clipboard"; }
+
+    // Media & Brightness
+    XF86AudioRaiseVolume { spawn-sh "noctalia msg volume-up 2"; }
+    XF86AudioLowerVolume { spawn-sh "noctalia msg volume-down 2"; }
+    XF86AudioMute { spawn-sh "noctalia msg volume-mute"; }
+    XF86MonBrightnessUp { spawn-sh "noctalia msg brightness-up"; }
+    XF86MonBrightnessDown { spawn-sh "noctalia msg brightness-down"; }
