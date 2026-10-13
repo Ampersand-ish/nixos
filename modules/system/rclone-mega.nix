@@ -1,4 +1,6 @@
-# MEGA mounted at /mnt/mega via rclone with a 50G VFS cache. Auth comes from
+# MEGA mounted at /mnt/mega via rclone with a 50G VFS cache. Mounts the drive's
+# top-level "MEGA" folder (where all the data lives), not the account root, so
+# its contents appear directly in /mnt/mega. Auth comes from
 # sops (secrets/rclone.conf, encrypted for admin+mighty+moonwhite); the mega
 # remote (user/pass) lives there, never in git. nofail + _netdev so a boot
 # never hangs on MEGA being unreachable. Not imported by the vm host.
@@ -16,7 +18,7 @@
       environment.systemPackages = [ pkgs.rclone ];
 
       fileSystems."/mnt/mega" = {
-        device = "mega:";
+        device = "mega:MEGA";
         fsType = "rclone";
         options = [
           "nodev"

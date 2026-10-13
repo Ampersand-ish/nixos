@@ -13,7 +13,7 @@ Files:
   HOME_PSK=...
   ```
 - `rclone.conf` — full rclone config holding the `mega` remote, consumed by the
-  `rclone-mega` module (mounts the whole MEGA account at `/mnt/mega`, 50G VFS
+  `rclone-mega` module (mounts the drive's `MEGA` folder at `/mnt/mega`, 50G VFS
   cache):
   ```
   [mega]
