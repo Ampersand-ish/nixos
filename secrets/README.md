@@ -12,6 +12,15 @@ Files:
   HOME_SSID=...
   HOME_PSK=...
   ```
+- `rclone.conf` — full rclone config holding the `mega` remote, consumed by the
+  `rclone-mega` module (mounts the whole MEGA account at `/mnt/mega`, 50G VFS
+  cache):
+  ```
+  [mega]
+  type = mega
+  user = <MEGA email>
+  pass = <output of: rclone obscure '<MEGA password>'>
+  ```
 
 Workflow:
 ```

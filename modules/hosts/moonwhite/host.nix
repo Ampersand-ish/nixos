@@ -42,6 +42,7 @@
         gnome-services
         flatpak
         fonts
+        rclone-mega
         gaming
         stylix
         docker

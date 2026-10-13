@@ -44,6 +44,7 @@
         flatpak
         fonts
         qt-loaders
+        rclone-mega
         gaming
         stylix
         docker
