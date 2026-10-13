@@ -32,6 +32,10 @@
           "vfs_cache_max_size=50G"
           "uid=${toString config.users.users.ampersand.uid}"
           "gid=${toString config.users.groups.users.gid}"
+          # gvfs: show as a mounted drive in Nautilus ("MEGA", remote-folder icon).
+          "x-gvfs-show"
+          "x-gvfs-name=MEGA"
+          "x-gvfs-icon=folder-remote"
         ];
       };
     };
