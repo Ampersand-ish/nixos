@@ -7,6 +7,7 @@ home/opencode/package.json
 home/opencode/package-lock.json
 home/opencode/bun.lock
 home/opencode/themes/matugen.json
+home/opencode/service-prod.json
 home/rclone/rclone.conf
 home/easyeffects/db/*.bak
 secrets/*.dec
