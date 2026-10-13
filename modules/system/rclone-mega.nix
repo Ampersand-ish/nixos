@@ -2,8 +2,10 @@
 # top-level "MEGA" folder (where all the data lives), not the account root, so
 # its contents appear directly in /mnt/mega. Auth comes from
 # sops (secrets/rclone.conf, encrypted for admin+mighty+moonwhite); the mega
-# remote (user/pass) lives there, never in git. nofail + _netdev so a boot
-# never hangs on MEGA being unreachable. Not imported by the vm host.
+# remote (user/pass) lives there, never in git. x-systemd.automount: the mount
+# happens on first access, so an offline boot costs nothing -- opening it while
+# offline just errors until the network is up, and works on retry. Idle timeout
+# unmounts after 10m of inactivity. Not imported by the vm host.
 { ... }:
 {
   flake.modules.nixos.rclone-mega =
@@ -24,6 +26,8 @@
           "nodev"
           "nofail"
           "_netdev"
+          "x-systemd.automount"
+          "x-systemd.idle-timeout=10m"
           "allow_other"
           "args2env"
           "config=${config.sops.secrets."rclone.conf".path}"
