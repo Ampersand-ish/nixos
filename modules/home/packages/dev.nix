@@ -11,6 +11,7 @@
         gradle
         typst
         tinymist
+        poppler-utils
         pandoc
         xmlstarlet
         rustup

@@ -51,6 +51,9 @@
         # gtksourceview theming rebuilds the whole GTKSourceView->libspelling chain
         # (papers, inkscape, capitaine-cursors), killing cache hits for a cosmetic theme.
         targets.gtksourceview.enable = false;
+        # HM gtk-qt owns Qt theming (QT_QPA_PLATFORMTHEME=gtk3); the NixOS qt target
+        # would set qt5ct and fight it. qt.enable itself still comes from qt-loaders.
+        targets.qt.enable = false;
       };
     };
 

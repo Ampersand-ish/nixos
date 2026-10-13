@@ -43,6 +43,7 @@
         gnome-services
         flatpak
         fonts
+        qt-loaders
         gaming
         stylix
         docker

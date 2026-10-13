@@ -17,6 +17,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # Zotero 10.0.4 in nixpkgs builds Zotero's Firefox-based runtime from ESR
+    # 153, but Zotero 10.0.4's omni.ja patch script only supports ESR 140 (the
+    # AboutTranslations actor was refactored in ActorManagerParent.sys.mjs),
+    # so the build fails. Pin to the last nixos-unstable rev where Zotero
+    # (10.0.2, ESR 140) built. Drop once nixpkgs adapts Zotero to ESR 153.
+    nixpkgs-zotero.url = "github:NixOS/nixpkgs/545c226a9af7f59fba5c3873f7c6a65e014c8f5f";
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -50,6 +57,11 @@
     };
     noctalia-shell = {
       url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # Track opencode upstream for latest releases instead of nixpkgs-unstable.
+    opencode = {
+      url = "github:sst/opencode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # DankMaterialShell (tracks the latest release tag via the stable branch).

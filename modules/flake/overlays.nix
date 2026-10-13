@@ -8,6 +8,28 @@
     };
     sddm-theme-field = final.callPackage ../../pkgs/sddm-theme-field/package.nix { };
 
+    # opencode from upstream (sst/opencode) for latest releases. Their overlay's
+    # committed hashes.json drifts whenever our (followed) nixpkgs bumps bun, so
+    # call their packaging files directly and pass the real output hash ourselves.
+    opencode =
+      let
+        node-modules = final.callPackage (inputs.opencode + "/nix/node_modules.nix") {
+          rev = builtins.substring 0 7 inputs.opencode.rev;
+          hash = "sha256-41b9FJaGRnezYwKLyBTHlJw69OX4bBP8kF6mRKqbbVQ=";
+        };
+      in
+      (final.callPackage (inputs.opencode + "/nix/opencode.nix") {
+        node_modules = node-modules;
+      }).overrideAttrs (old: {
+        # build.ts imports ../../../script/native-arch, but upstream's
+        # node_modules.nix fileset omits the root script/ dir.
+        src = inputs.opencode;
+      });
+
+    # Zotero 10.0.4 in nixpkgs breaks against Firefox ESR 153 (Zotero's omni.ja
+    # patch script targets ESR 140) -- see the nixpkgs-zotero input in flake.nix.
+    zotero = inputs.nixpkgs-zotero.legacyPackages.${final.system}.zotero;
+
     # 0.8.2 regressed Steam popup/context menus (open then instantly dismiss).
     # Pin to 0.8.1 until upstream lands a fix. cargoDeps must be rebuilt alongside
     # src (overriding cargoHash alone keeps the old vendor derivation).
