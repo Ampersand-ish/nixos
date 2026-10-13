@@ -5,7 +5,7 @@
 # remote (user/pass) lives there, never in git. x-systemd.automount: the mount
 # happens on first access, so an offline boot costs nothing -- opening it while
 # offline just errors until the network is up, and works on retry. Idle timeout
-# unmounts after 10m of inactivity. Not imported by the vm host.
+# unmounts after 60m of inactivity. Not imported by the vm host.
 { ... }:
 {
   flake.modules.nixos.rclone-mega =
@@ -27,7 +27,7 @@
           "nofail"
           "_netdev"
           "x-systemd.automount"
-          "x-systemd.idle-timeout=10m"
+          "x-systemd.idle-timeout=60m"
           "allow_other"
           "args2env"
           "config=${config.sops.secrets."rclone.conf".path}"
