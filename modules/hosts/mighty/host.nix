@@ -24,6 +24,7 @@
         kernel-tuning
         kernel-cachyos-settings
         amdgpu
+        mesa-gfx12-fix
         tpm
         bluetooth
         audio

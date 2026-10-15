@@ -1,0 +1,66 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: <author>
+Date: <date>
+Subject: [PATCH] ac/surface: force 4KB swizzle for mip-chained render targets on gfx12
+
+On gfx1201 (Navi 48 / RX 9070 XT), rendering into a color surface that
+has a mip chain and uses the ADDR3_256B_2D swizzle mode leaves a
+deterministic anti-diagonal 16x16-tile corruption at non-power-of-two
+pitches. The pattern is byte-identical run to run: for each 16x16-tile
+macro block the misplaced tiles sit along the anti-diagonal (x_tile =
+~y_tile), matching a pipe-bank interleave mismatch rather than a cache
+or coherency issue.
+
+The 256B swizzle is not pipe-interleaved (pipeBankXor / tile_swizzle is
+only computed for swizzle modes >= 4KB), so `surf->tile_swizzle` is 0.
+But the color pipeline still interleaves writes across the memory banks
+as if the surface used a >=4KB swizzle, so writes targeting mip levels
+land in the wrong bank and read back as stale or zeroed data.
+
+Both radeonsi and RADV are affected because the swizzle is selected in
+shared `gfx12_select_swizzle_mode()`. RADV usually avoids it in practice
+by binding restricted per-level views (MAX_MIP=1), but a full-chain view
+reproduces the exact same corruption.
+
+The smallest swizzle mode that avoids the corruption is 4KB, so force
+4KB_2D for color render-target surfaces that have a mip chain. This only
+affects mip-chained color renderable surfaces; single-mip surfaces and
+sampler-only (NO_RENDER_TARGET) surfaces keep their previous layout.
+
+Fixes rendering corruption into texture mip levels (glGenerateMipmap /
+glBlitFramebuffer / FBO rendering) seen as black 32x32 blocks in GTK4 /
+loupe on gfx1201.
+
+---
+
+ src/amd/common/ac_surface.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/src/amd/common/ac_surface.c b/src/amd/common/ac_surface.c
+index c5d3a82323b..8409d5345ca 100644
+--- a/src/amd/common/ac_surface.c
++++ b/src/amd/common/ac_surface.c
+@@ -3699,6 +3699,21 @@ static unsigned gfx12_select_swizzle_mode(struct ac_addrlib *addrlib,
+         (!get_out.validModes.sw2d256B && !get_out.validModes.swLinear)))
+       return ADDR3_4KB_2D;
+ 
++   /* A color surface with a mip chain must not use the 256B swizzle:
++    * rendering into such a surface on Navi 48 (gfx1201) produces a
++    * deterministic anti-diagonal tile corruption at non-power-of-2 pitches
++    * (the 256B swizzle is not pipe-interleaved, but the color pipeline still
++    * interleaves writes across banks assuming a >=4KB swizzle). This also
++    * covers upload-only mip-chained textures (TRANSFER_DST | SAMPLED without
++    * COLOR_ATTACHMENT usage): blit-based mipmap generation renders into them
++    * anyway. Only depth/stencil surfaces are excluded. Force 64KB.
++    * (4KB also corrupts at 3840x2160 with >=8 mip levels and DCC; 64KB is
++    * the layout AMD's PAL/Windows driver selects and is clean at all tested
++    * sizes.) */
++   if (!(flags & RADEON_SURF_Z_OR_SBUFFER) && in->numMipLevels > 1 &&
++       get_out.validModes.sw2d64kB)
++      return ADDR3_64KB_2D;
++
+    assert(get_out.validModes.sw2d256B || get_out.validModes.swLinear);
+ 
+    if (get_out.validModes.sw2d256B && get_out.validModes.swLinear)
+--
+2.47.0
