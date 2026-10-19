@@ -14,6 +14,7 @@
         moonwhite-hardware
         initrd
         lanzaboote
+        plymouth
         hibernate
         disko-luks-btrfs
         files-disk
