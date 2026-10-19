@@ -1,5 +1,5 @@
 [StreamInputs]
-inputDevice=alsa_input.pci-0000_07_00.6.analog-stereo
+inputDevice=AndroidMic_source
 mostUsedPresets=Noise cancellation and mic fix
 plugins=autogain#0,rnnoise#0
 usedPresets=Noise cancellation and mic fix:123
@@ -11,10 +11,10 @@ mostUsedPresets=IEMs Bass boost,Standard
 outputDevice=alsa_output.usb-FIIO_FIIO_KA13-01.analog-stereo
 plugins=bass_enhancer#0,limiter#0
 usedPresets=IEMs Bass boost:94,Standard:2
-visiblePage=pluginsPage
 visiblePlugin=bass_enhancer#0
 
 [Window]
 autostartOnLogin=true
 height=1424
+visiblePage=inputPage
 width=1268

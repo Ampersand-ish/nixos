@@ -12,6 +12,12 @@
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE="0660", GROUP="plugdev", TAG+="uaccess"
       # Keychron (VIA / Link)
       KERNEL=="hidraw*", ATTRS{idVendor}=="3434", MODE="0660", GROUP="input", TAG+="uaccess"
+      # AndroidMic USB serial: phone in charging-only mode (Samsung)
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="04e8", ATTRS{idProduct}=="6860", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+      # AndroidMic USB serial: Android Open Accessory mode (phone switches
+      # into this on first connect; 2d01 is accessory+adb)
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="2d00", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="2d01", MODE="0660", GROUP="plugdev", TAG+="uaccess"
       # UF2 mass-storage bootloaders (nice!nano etc.)
       KERNEL=="sd*", ATTRS{idVendor}=="239a", ENV{ID_FS_LABEL}=="NICENANO", ENV{UDISKS_AUTO}="1"
     '';

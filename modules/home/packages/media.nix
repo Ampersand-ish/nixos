@@ -6,6 +6,8 @@
     {
       home.packages = with pkgs; [
         vlc
+        android-mic
+        android-tools # adb, for AndroidMic's USB connection mode
         handbrake
         ffmpegthumbnailer
         chromaprint
