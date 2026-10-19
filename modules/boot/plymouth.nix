@@ -31,8 +31,10 @@
       boot.plymouth.logo = "${pkgs.nixos-icons}/share/icons/hicolor/256x256/apps/nix-snowflake.png";
 
       # No console text during boot: plymouth owns the screen from the initrd
-      # on, and kernel/udev messages stay quiet behind it.
-      boot.consoleLogLevel = 3;
+      # on, and kernel/udev messages stay quiet behind it. loglevel 0 hides
+      # even kernel errors — use the boot menu's plymouth.enable=0 escape to
+      # debug boot failures.
+      boot.consoleLogLevel = 0;
       boot.kernelParams = [
         "quiet"
         "udev.log_level=3"
