@@ -15,6 +15,10 @@
         sopsFile = ../../secrets/rclone.conf;
         format = "binary"; # full rclone config, not a yaml/dotenv key-value file
         mode = "0400";
+        # Nautilus (gvfs) mounts this fstab entry via setuid mount, which runs
+        # the rclone helper as the invoking user; root-only 0400 would make
+        # that path fail with "Failed to load config file: permission denied".
+        owner = config.users.users.ampersand.name;
       };
 
       environment.systemPackages = [ pkgs.rclone ];
