@@ -35,6 +35,7 @@
         power
         networkmanager
         nm-profiles
+        openvpn
         firewall
         avahi
         ssh

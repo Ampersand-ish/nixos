@@ -16,6 +16,9 @@ creation_rules:
   - path_regex: secrets/nm\.env$
     key_groups:
       - age: [*admin, *moonwhite, *mighty]
+  - path_regex: secrets/vpn\.(env|ovpn)$
+    key_groups:
+      - age: [*admin, *mighty]
   - path_regex: secrets/.*
     key_groups:
       - age: [*admin]

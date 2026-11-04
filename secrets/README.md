@@ -21,6 +21,14 @@ Files:
   user = <MEGA email>
   pass = <output of: rclone obscure '<MEGA password>'>
   ```
+- `vpn.ovpn` — the full OpenVPN client bundle for mighty (TP-Link Omada, `106.51.70.63:1194`,
+  client cert + key embedded). Encrypted as binary; the `openvpn` module splits the public
+  certs into `/run/openvpn-nm` for NetworkManager at boot.
+- `vpn.env` — credentials for the same profile:
+  ```
+  VPN_USER=...
+  VPN_PASS=...
+  ```
 
 Workflow:
 ```
