@@ -11,6 +11,7 @@
         orca-slicer
         lycheeslicer
         drawio
+        inkscape
         zotero
         zmk-studio
       ];

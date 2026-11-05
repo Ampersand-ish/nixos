@@ -22,6 +22,7 @@
         awww
         drm_info
         cliphist
+        satty
       ];
       stylix.targets.noctalia.enable = false;
       stylix.targets.noctalia-shell.enable = false;
