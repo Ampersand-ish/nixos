@@ -28,6 +28,23 @@
             }
           }
         },
+        "deepseek/deepseek-v4.1-flash-1017": {
+          "name": "DeepSeek V4.1 Flash 1017 (ZDR)",
+          "tool_call": true,
+          "cost": {
+            "input": 0.15,
+            "output": 0.6
+          },
+          "settings": {
+            "provider": {
+              "zdr": true,
+              "data_collection": "deny"
+            },
+            "reasoning": {
+              "effort": "high"
+            }
+          }
+        },
         "moonshotai/kimi-k3": {
           "name": "Kimi K3 (ZDR)",
           "tool_call": true,
@@ -139,7 +156,7 @@
       "description": "Default coding agent: implements changes with full tool access"
     },
     "plan": {
-      "model": "openrouter/moonshotai/kimi-k3",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
       "description": "Read-only planning and hard-problem analysis on the strongest model",
       "permission": {
         "edit": {
@@ -170,7 +187,7 @@
     },
     "review": {
       "mode": "subagent",
-      "model": "openrouter/moonshotai/kimi-k3",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
       "description": "Reviews a diff for correctness bugs and missed edge cases; read-only",
       "temperature": 0.1,
       "permission": {

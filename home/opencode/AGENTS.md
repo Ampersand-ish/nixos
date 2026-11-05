@@ -25,7 +25,7 @@ You are running on open-weight models. Compensate with discipline.
 - When a tool call fails, read the error and change the approach. Do not retry the identical call.
 - Never attempt `sudo` yourself. This harness cannot prompt for a password. If a step needs root, hand the command to the user and ask them to run it.
 
-## Model policy (user-directed 2026-10-13; standing)
+## Model policy (user-directed 2026-10-13; updated 2026-11-04; standing)
 - Subagent implementers and fixers: `openrouter/~z-ai/glm-flash-latest` (GLM Flash 5.3). This replaces the haiku/sonnet implementer tiers.
-- Subagent reviewers — task, re-, and final whole-branch: `openrouter/moonshotai/kimi-k3`, dispatched as agent `general`.
+- Subagent reviewers — task, re-, and final whole-branch: `openrouter/deepseek/deepseek-v4.1-flash-1017` (DeepSeek V4.1 Flash 1017), dispatched as agent `general`. Replaced Kimi K3 per user direction.
 - No other models without explicit user instruction.
