@@ -7,7 +7,6 @@
       networking.networkmanager.ensureProfiles = {
         environmentFiles = [
           config.sops.secrets."nm.env".path
-          config.sops.secrets."vpn.env".path
         ];
         profiles = {
           home-wifi = {

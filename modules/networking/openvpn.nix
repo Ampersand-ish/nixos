@@ -17,6 +17,9 @@
         format = "dotenv";
         key = "";
       };
+      networking.networkmanager.ensureProfiles.environmentFiles = [
+        config.sops.secrets."vpn.env".path
+      ];
 
       systemd.services.openvpn-nm-extract = {
         description = "Split OpenVPN certs out of the sops-decrypted .ovpn bundle";
