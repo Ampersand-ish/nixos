@@ -12,13 +12,18 @@
     # packaging files directly and take the node_modules output hash from their
     # committed hashes.json so input bumps need no manual hash updates.
     # Caveat: if nixpkgs' bun drifts from the one upstream used to generate it,
-    # the build fails with a hash mismatch -- pin a hash here temporarily.
+    # the build fails with a hash mismatch -- pin a hash here temporarily. The
+    # same happens when upstream's hashes.json lags behind its bun.lock.
     opencode =
       let
         hashes = builtins.fromJSON (builtins.readFile (inputs.opencode + "/nix/hashes.json"));
         node-modules = final.callPackage (inputs.opencode + "/nix/node_modules.nix") {
           rev = builtins.substring 0 7 inputs.opencode.rev;
-          hash = hashes.nodeModules.${final.stdenv.hostPlatform.system};
+          # Temporary pin: hashes.json is stale at this rev (not updated since
+          # 56ec471, bun.lock changed 9 times after). Restore the lookup below
+          # once upstream catches up.
+          # hash = hashes.nodeModules.${final.stdenv.hostPlatform.system};
+          hash = "sha256-NVObLjYRxsLTwnlbGJgnjj1kfKfQvNya4lj0O+HaSjY=";
         };
       in
       (final.callPackage (inputs.opencode + "/nix/opencode.nix") {
@@ -106,6 +111,27 @@
     # Zotero 10.0.4 in nixpkgs breaks against Firefox ESR 153 (Zotero's omni.ja
     # patch script targets ESR 140) -- see the nixpkgs-zotero input in flake.nix.
     zotero = inputs.nixpkgs-zotero.legacyPackages.${final.system}.zotero;
+
+    # AnyDesk rebuilt the 8.1.0 tarball in place on 2026-11-03 without bumping the
+    # version, so nixpkgs' pin no longer matches. The new binary is identical to
+    # the one in their signed apt repo. Drop this once nixpkgs updates its pin; a
+    # version bump fails with a hash mismatch here as a reminder.
+    # Setting the interpreter and rpath in one patchelf call yields a binary that
+    # segfaults on start, so split it in two. Drop once nixpkgs#581673 lands.
+    anydesk = prev.anydesk.overrideAttrs (old: {
+      src = final.fetchurl {
+        inherit (old.src) url;
+        hash = "sha256-zS5P2eyTHZY7cBW8mQ2Q6M0lXcx9VZZTtpG3Bb6u7IQ=";
+      };
+      postFixup =
+        let
+          setInterpreter = "--set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker)";
+        in
+        builtins.replaceStrings
+          [ "${setInterpreter} \\\n" "wrapProgram $out/bin/anydesk" ]
+          [ "" "patchelf ${setInterpreter} $out/bin/anydesk\n\nwrapProgram $out/bin/anydesk" ]
+          old.postFixup;
+    });
 
     # 0.8.2 regressed Steam popup/context menus (open then instantly dismiss).
     # Pin to 0.8.1 until upstream lands a fix. cargoDeps must be rebuilt alongside

@@ -83,7 +83,9 @@
 
     # Deliberately NOT following nixpkgs: overlays.pinned must match the
     # nixpkgs the kernels were built against to hit the lantian binary cache.
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+    # Pinned to the rev before the 2026-11-05 flake update (kernel 7.2.8; that update
+    # moved to 7.3.1). Restore the `release` branch URL to track new kernels again.
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/b1332396df6e880d7e3b6b451c6a74132ce8cf66";
 
     # CachyOS-Settings as a standalone NixOS module (sysctl, udev, systemd, ZRAM, THP, I/O).
     cachyos-settings = {
