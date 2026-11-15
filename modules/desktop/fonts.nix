@@ -23,6 +23,29 @@
           nerd-fonts.iosevka-term
           nerd-fonts.meslo-lg
           nerd-fonts.symbols-only
+          barlow
+          inter
+          lora
+          poppins
+          (stdenvNoCC.mkDerivation {
+            pname = "bebas-neue";
+            version = "2.000-unstable-2022-07-04";
+            src = fetchFromGitHub {
+              owner = "dharmatype";
+              repo = "Bebas-Neue";
+              rev = "46e72cec95ee599f72c0de4a12cfe64828949236";
+              hash = "sha256-dtllW1h2yxklwh7dztWeMbIfBGWllMt15S1fZO1YJUs=";
+            };
+            installPhase = ''
+              install -Dm444 -t $out/share/fonts/truetype \
+                "fonts/BebasNeue(2018)ByDhamraType/ttf/BebasNeue-Regular.ttf"
+            '';
+            meta = {
+              description = "Bebas Neue by Dharma Type (overlay words)";
+              license = pkgs.lib.licenses.ofl;
+              platforms = pkgs.lib.platforms.all;
+            };
+          })
           (stdenvNoCC.mkDerivation {
             pname = "aptos-fonts";
             version = "1.0";
