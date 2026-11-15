@@ -29,3 +29,12 @@ You are running on open-weight models. Compensate with discipline.
 - Subagent implementers and fixers: `openrouter/~z-ai/glm-flash-latest` (GLM Flash 5.3). This replaces the haiku/sonnet implementer tiers.
 - Subagent reviewers — task, re-, and final whole-branch: `openrouter/deepseek/deepseek-v4.1-flash-1017` (DeepSeek V4.1 Flash 1017), dispatched as agent `general`. Replaced Kimi K3 per user direction.
 - No other models without explicit user instruction.
+
+## Writing style (user-directed 2026-11-09; standing)
+- Write all reports, slides, and documents in ASD-STE100 Simplified Technical English.
+- Use short sentences: max 20 words in procedural text, max 25 words in descriptive text. One topic per sentence.
+- Use the active voice and simple present tense. Use approved words with one meaning each. Do not use slang, idioms, or jargon that is not a technical name.
+- Use articles ("the", "a"). Do not use noun clusters of more than three words.
+- Write instructions in the imperative ("Measure the sample."). Write descriptions as statements ("The peak moves to 1236 nm.").
+- Use lists for sequential steps. Write a warning or caution before the instruction it applies to.
+- Technical names (chemicals, instruments, units, method names) are permitted.
