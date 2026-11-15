@@ -16,7 +16,6 @@
         mighty-hardware
         initrd
         lanzaboote
-        plymouth
         hibernate
         disko-luks-btrfs
         mighty-data-disk
