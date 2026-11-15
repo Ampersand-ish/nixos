@@ -1,8 +1,6 @@
 [StreamInputs]
 inputDevice=AndroidMic_source
-mostUsedPresets=Noise cancellation and mic fix
 plugins=autogain#0,rnnoise#0
-usedPresets=Noise cancellation and mic fix:123
 visiblePage=pluginsPage
 visiblePlugin=rnnoise#0
 
