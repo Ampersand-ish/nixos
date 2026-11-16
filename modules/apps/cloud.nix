@@ -1,6 +1,5 @@
-# Cloud sync and remote access: AnyDesk, rclone (config out-of-store), sshfs.
-# megasync removed: the rclone-mega module mounts MEGA directly; the app has no
-# autostart wiring, but its tray app is redundant next to the system mount.
+# Cloud sync and remote access: AnyDesk, MEGAsync, rclone (config out-of-store), sshfs.
+# MEGAsync has no autostart wiring. The rclone-mega module also mounts MEGA.
 { ... }:
 {
   flake.modules.homeManager.cloud =
@@ -8,6 +7,7 @@
     {
       home.packages = with pkgs; [
         anydesk
+        megasync
         rclone
         sshfs
       ];
