@@ -55,6 +55,7 @@
           c = "clear";
           cat = "bat";
           btop = "btop --force-utf";
+          open = "xdg-open";
           mpvHDR = "env ENABLE_HDR_WSI=1 gamescope --prefer-vk-device 10de:ffff --backend drm -O DP-1 -W 3840 -H 2160 -f --hdr-enabled -- mpv --vo=gpu-next --gpu-api=vulkan --target-colorspace-hint --target-prim=bt.2020 --target-trc=pq --tone-mapping=auto";
         };
 
