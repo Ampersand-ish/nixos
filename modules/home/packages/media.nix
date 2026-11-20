@@ -6,6 +6,7 @@
     {
       home.packages = with pkgs; [
         vlc
+        spotify
         android-mic
         android-tools # adb, for AndroidMic's USB connection mode
         handbrake
